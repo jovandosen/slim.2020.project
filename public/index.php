@@ -1,7 +1,11 @@
 <?php
-use Psr\Http\Message\ResponseInterface as Response;
+session_start();
+//use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
+use Slim\Psr7\Response;
+use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use App\Services\Foo;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -9,19 +13,34 @@ $container = new \DI\Container();
 
 AppFactory::setContainer($container);
 
+$container->set('fooTest', function(){
+	return new Foo();
+});
+
 $app = AppFactory::create();
 
 $app->addRoutingMiddleware();
 
-$app->get('/', function(Request $request, Response $response, $args){
-	$response->getBody()->write('Hello world.');
-	return $response;
-});
+$beforeMiddleware = function (Request $request, RequestHandler $handler) {
+    $response = $handler->handle($request);
+    $existingContent = (string) $response->getBody();
 
-$app->get('/test', function(Request $request, Response $response, $args){
-	$response->getBody()->write('Test route');
-	return $response;
-});
+    $response = new Response();
+    $response->getBody()->write('BEFORE' . $existingContent);
+
+    return $response;
+};
+
+$afterMiddleware = function ($request, $handler) {
+    $response = $handler->handle($request);
+    $response->getBody()->write('AFTER');
+    return $response;
+};
+
+require __DIR__ . '/../routes/routes.php';
+
+$app->add($beforeMiddleware);
+$app->add($afterMiddleware);
 
 $app->addErrorMiddleware(true, true, true);
 
