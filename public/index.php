@@ -6,6 +6,7 @@ use Slim\Factory\AppFactory;
 use Slim\Psr7\Response;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use App\Services\Foo;
+use App\Mvc\Controllers\TestController;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -15,6 +16,10 @@ AppFactory::setContainer($container);
 
 $container->set('fooTest', function(){
 	return new Foo();
+});
+
+$container->set('TestController', function($container){
+	return new TestController($container);
 });
 
 $app = AppFactory::create();
@@ -39,8 +44,8 @@ $afterMiddleware = function ($request, $handler) {
 
 require __DIR__ . '/../routes/routes.php';
 
-$app->add($beforeMiddleware);
-$app->add($afterMiddleware);
+//$app->add($beforeMiddleware);
+//$app->add($afterMiddleware);
 
 $app->addErrorMiddleware(true, true, true);
 

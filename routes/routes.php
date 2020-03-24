@@ -1,7 +1,7 @@
 <?php
 
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Psr7\Response;
+use Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/', function(Request $request, Response $response, $args){
 	$response->getBody()->write('Hello world.');
@@ -27,6 +27,12 @@ $app->get('/json/example', function(Request $request, Response $response, $args)
 
 $app->get('/testing', function(Request $request, Response $response, $args){
 	$fooTest = $this->get('fooTest');
-	$fooTest->test();
+	$response->getBody()->write($fooTest->test());
 	return $response;
 });
+
+$app->get('/bar', function(Request $request, Response $response, $args){
+	return $response->withHeader('Location', '/testing')->withStatus(302);
+});
+
+$app->get('/dev', 'TestController:someData');
