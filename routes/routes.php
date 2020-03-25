@@ -51,3 +51,7 @@ $app->get('/baz', 'FooController:exampleMethod')->setName('baz');
 $app->get('/bazz', \FooController::class . ':oneMoreExampleMethod');
 
 $app->get('/bazzz', \BarController::class); // using invoke magic method
+
+$app->get('/upload', 'FooController:uploadFile')->setName('file.upload');
+
+$app->post('/upload', 'FooController:postFileUpload');
