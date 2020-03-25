@@ -8,12 +8,33 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use App\Services\Foo;
 use App\Mvc\Controllers\TestController;
 use Slim\Routing\RouteCollectorProxy;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 $container = new \DI\Container();
 
 AppFactory::setContainer($container);
+
+$capsule = new Capsule;
+
+$capsule->addConnection([
+    'driver'    => 'mysql',
+    'host'      => 'localhost',
+    'database'  => 'slim',
+    'username'  => 'root',
+    'password'  => '',
+    'charset'   => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'prefix'    => '',
+]);
+
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+
+$container->set('Capsule', function() use ($capsule){
+	return $capsule;
+});
 
 $container->set('twig', function(){
 
@@ -26,7 +47,9 @@ $container->set('twig', function(){
     	echo "THIS IS TWIG CUSTOM FUNCTION";
 	});
 	$twig->addFunction($function);
-	
+
+	$twig->addExtension(new \Twig\Extension\DebugExtension());
+
 	return $twig;
 });
 

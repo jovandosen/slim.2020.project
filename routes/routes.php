@@ -57,3 +57,7 @@ $app->get('/upload', 'FooController:uploadFile')->setName('file.upload');
 $app->post('/upload', 'FooController:postFileUpload');
 
 $app->get('/twig', 'TestController:twigTest')->setName('twig.route');
+
+$app->get('/users', 'TestController:getUsers')->setName('users');
+
+$app->get('/user', 'TestController:createUser');

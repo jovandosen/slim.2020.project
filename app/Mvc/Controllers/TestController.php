@@ -2,6 +2,8 @@
 
 namespace App\Mvc\Controllers;
 
+use App\Mvc\Models\User;
+
 class TestController extends Controller
 {
 	public function someData($request, $response)
@@ -30,6 +32,28 @@ class TestController extends Controller
 		$twig = $this->container->get('twig');
 
 		echo $twig->render('test.twig', ['foo' => 'foo123']);
+
+		return $response;
+	}
+
+	public function getUsers($request, $response)
+	{
+		$users = User::all();
+
+		$twig = $this->container->get('twig');
+
+		echo $twig->render('users.twig', ['users' => $users]);
+
+		return $response;
+	}
+
+	public function createUser($request, $response)
+	{
+		$user = User::create([
+			'name' => 'Jelena',
+			'email' => 'jelena@gmail.com',
+			'password' => 'jelena'
+		]);
 
 		return $response;
 	}
