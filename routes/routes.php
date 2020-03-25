@@ -55,3 +55,5 @@ $app->get('/bazzz', \BarController::class); // using invoke magic method
 $app->get('/upload', 'FooController:uploadFile')->setName('file.upload');
 
 $app->post('/upload', 'FooController:postFileUpload');
+
+$app->get('/twig', 'TestController:twigTest')->setName('twig.route');

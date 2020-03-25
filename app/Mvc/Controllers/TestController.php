@@ -24,4 +24,13 @@ class TestController extends Controller
 		$response->getBody()->write('two');
 		return $response;
 	}
+
+	public function twigTest($request, $response)
+	{
+		$twig = $this->container->get('twig');
+
+		echo $twig->render('test.twig', ['foo' => 'foo123']);
+
+		return $response;
+	}
 }

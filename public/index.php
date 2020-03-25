@@ -15,6 +15,21 @@ $container = new \DI\Container();
 
 AppFactory::setContainer($container);
 
+$container->set('twig', function(){
+
+	$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../app/Mvc/Views');
+	$twig = new \Twig\Environment($loader, ['cache' => false, 'debug' => true]);
+
+	$twig->addGlobal('bazz', 'global variable');
+
+	$function = new \Twig\TwigFunction('function_name', function () {
+    	echo "THIS IS TWIG CUSTOM FUNCTION";
+	});
+	$twig->addFunction($function);
+	
+	return $twig;
+});
+
 $container->set('fooTest', function(){
 	return new Foo();
 });
