@@ -2,6 +2,7 @@
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Routing\RouteCollectorProxy;
 
 $app->get('/', function(Request $request, Response $response, $args){
 	$response->getBody()->write('Hello world.');
@@ -35,4 +36,18 @@ $app->get('/bar', function(Request $request, Response $response, $args){
 	return $response->withHeader('Location', '/testing')->withStatus(302);
 });
 
-$app->get('/dev', 'TestController:someData');
+$app->get('/dev', 'TestController:someData')->setName('dev.route');
+
+$app->group('/group', function(RouteCollectorProxy $group){
+
+	$group->get('/one', 'TestController:one')->setName('one');
+
+	$group->get('/two', 'TestController:two')->setName('two');
+
+});
+
+$app->get('/baz', 'FooController:exampleMethod')->setName('baz');
+
+$app->get('/bazz', \FooController::class . ':oneMoreExampleMethod');
+
+$app->get('/bazzz', \BarController::class); // using invoke magic method

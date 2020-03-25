@@ -7,6 +7,7 @@ use Slim\Psr7\Response;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use App\Services\Foo;
 use App\Mvc\Controllers\TestController;
+use Slim\Routing\RouteCollectorProxy;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -20,6 +21,14 @@ $container->set('fooTest', function(){
 
 $container->set('TestController', function($container){
 	return new TestController($container);
+});
+
+$container->set('FooController', function($container){
+	return new \App\Mvc\Controllers\FooController($container);
+});
+
+$container->set('BarController', function($container){
+	return new \App\Mvc\Controllers\BarController($container);
 });
 
 $app = AppFactory::create();
