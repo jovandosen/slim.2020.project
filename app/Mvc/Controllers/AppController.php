@@ -22,6 +22,13 @@ class AppController extends Controller
 		return $response;
 	}
 
+	public function registerData($request, $response)
+	{
+		echo "string";
+
+		return $response;
+	}
+
 	public function login($request, $response)
 	{
 		$view = $this->container->get('twig');

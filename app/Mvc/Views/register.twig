@@ -7,15 +7,15 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12">
-					<form method="POST" action="/register">
+					<form method="POST" action="/register" id="register-form">
 						<div class="form-group">
 							<label for="first-name"><i class="fa fa-user fa-lg add-mar"></i>First Name:</label>
-							<input type="text" name="firstName" id="first-name" class="form-control" placeholder="First Name..." autocomplete="off">
+							<input type="text" name="firstName" id="first-name" class="form-control" placeholder="First Name..." autocomplete="off" minlength="3" maxlength="20">
 							<small id="first-name-help" class="form-text text-muted">Enter your first name.</small>
 						</div>
 						<div class="form-group">
 							<label for="last-name"><i class="fa fa-user fa-lg add-mar"></i>Last Name:</label>
-							<input type="text" name="lastName" id="last-name" class="form-control" placeholder="Last Name..." autocomplete="off">
+							<input type="text" name="lastName" id="last-name" class="form-control" placeholder="Last Name..." autocomplete="off" minlength="3" maxlength="20">
 							<small id="last-name-help" class="form-text text-muted">Enter your last name.</small>
 						</div>
 						<div class="form-group">
@@ -26,17 +26,21 @@
 						<div class="form-group">
 							<label for="password"><i class="fa fa-key fa-lg add-mar"></i>Password:</label>
 							<div class="input-group">
-								<input type="password" name="password" id="password" class="form-control" placeholder="Password...">
+								<input type="password" name="password" id="password" class="form-control" placeholder="Password..." minlength="5" maxlength="20">
 								<div class="input-group-addon add-style-hide-show">
         							<i class="fa fa-eye-slash fa-lg" aria-hidden="true" id="hide-show-el"></i>
       							</div>
 							</div>
 							<small id="password-help" class="form-text text-muted">Enter your password.</small>
 						</div>
-						<input type="submit" value="REGISTER" class="btn btn-primary">
+						<input type="submit" value="REGISTER" class="btn btn-primary" id="register-button">
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="js/register.js"></script>
 {% endblock %}
