@@ -67,3 +67,5 @@ $app->get('/user', 'TestController:createUser');
 $app->get('/', 'AppController:home')->setName('home');
 
 $app->get('/register', 'AppController:register')->setName('register');
+
+$app->get('/login', 'AppController:login')->setName('login');

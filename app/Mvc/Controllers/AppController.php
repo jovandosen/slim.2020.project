@@ -21,4 +21,13 @@ class AppController extends Controller
 
 		return $response;
 	}
+
+	public function login($request, $response)
+	{
+		$view = $this->container->get('twig');
+
+		echo $view->render('login.twig');
+
+		return $response;
+	}
 }
