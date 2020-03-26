@@ -69,6 +69,10 @@ $container->set('BarController', function($container){
 	return new \App\Mvc\Controllers\BarController($container);
 });
 
+$container->set('AppController', function($container){
+	return new \App\Mvc\Controllers\AppController($container);
+});
+
 $app = AppFactory::create();
 
 $app->addRoutingMiddleware();

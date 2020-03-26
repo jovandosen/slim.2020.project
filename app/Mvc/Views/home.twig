@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+	{% block head %}
+	<head>
+		<title>{% block title %}Home{% endblock %}</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="css/app.css">
+	</head>
+	{% endblock %}
+	<body>
+
+		{% block navigation %}
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+  			<a class="navbar-brand" href="/">SLIM</a>
+  			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    			<span class="navbar-toggler-icon"></span>
+  			</button>
+		  	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		    	<ul class="navbar-nav ml-auto">
+			      	<li class="nav-item">
+			        	<a class="nav-link" href="#">Register</a>
+			      	</li>
+		      		<li class="nav-item">
+			        	<a class="nav-link" href="#">Login</a>
+			      	</li>
+		    	</ul>
+		  	</div>
+		</nav>
+		{% endblock %}
+
+		{% block content %}
+		<div class="home-content-box">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-6">
+						<img src="images/site.jpg" alt="Home image" class="img-fluid img-thumbnail">
+					</div>
+					<div class="col-md-6">
+						<h1>Test</h1>
+						<p class="text-justify">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endblock %}
+
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		<script src="js/app.js"></script>
+	</body>
+</html>

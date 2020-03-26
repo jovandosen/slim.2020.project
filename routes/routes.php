@@ -4,10 +4,10 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Routing\RouteCollectorProxy;
 
-$app->get('/', function(Request $request, Response $response, $args){
+/*$app->get('/', function(Request $request, Response $response, $args){
 	$response->getBody()->write('Hello world.');
 	return $response;
-});
+});*/
 
 $app->get('/test', function(Request $request, Response $response, $args){
 	$response->getBody()->write('Test route');
@@ -61,3 +61,5 @@ $app->get('/twig', 'TestController:twigTest')->setName('twig.route');
 $app->get('/users', 'TestController:getUsers')->setName('users');
 
 $app->get('/user', 'TestController:createUser');
+
+$app->get('/', 'AppController:home')->setName('home');
