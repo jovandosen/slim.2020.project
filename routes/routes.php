@@ -62,4 +62,8 @@ $app->get('/users', 'TestController:getUsers')->setName('users');
 
 $app->get('/user', 'TestController:createUser');
 
+// App routes
+
 $app->get('/', 'AppController:home')->setName('home');
+
+$app->get('/register', 'AppController:register')->setName('register');

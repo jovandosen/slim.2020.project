@@ -1,0 +1,37 @@
+{% extends 'home.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+	<div class="register-form-box">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<form method="POST" action="/register">
+						<div class="form-group">
+							<label for="first-name"><i class="fa fa-user fa-lg add-mar"></i>First Name:</label>
+							<input type="text" name="firstName" id="first-name" class="form-control" placeholder="First Name..." autocomplete="off">
+							<small id="first-name-help" class="form-text text-muted">Enter your first name.</small>
+						</div>
+						<div class="form-group">
+							<label for="last-name"><i class="fa fa-user fa-lg add-mar"></i>Last Name:</label>
+							<input type="text" name="lastName" id="last-name" class="form-control" placeholder="Last Name..." autocomplete="off">
+							<small id="last-name-help" class="form-text text-muted">Enter your last name.</small>
+						</div>
+						<div class="form-group">
+							<label for="email"><i class="fa fa-envelope fa-lg add-mar"></i>Email:</label>
+							<input type="email" name="email" id="email" class="form-control" placeholder="Email address..." autocomplete="off">
+							<small id="email-help" class="form-text text-muted">Enter your email address.</small>
+						</div>
+						<div class="form-group">
+							<label for="password"><i class="fa fa-key fa-lg add-mar"></i>Password:</label>
+							<input type="password" name="password" id="password" class="form-control" placeholder="Password...">
+							<small id="password-help" class="form-text text-muted">Enter your password.</small>
+						</div>
+						<input type="submit" value="REGISTER" class="btn btn-primary">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

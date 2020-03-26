@@ -12,4 +12,13 @@ class AppController extends Controller
 
 		return $response;
 	}
+
+	public function register($request, $response)
+	{
+		$view = $this->container->get('twig');
+
+		echo $view->render('register.twig');
+
+		return $response;
+	}
 }
