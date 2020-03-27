@@ -39,6 +39,8 @@ class AppController extends Controller
 		$password = $data['password'];
 		$emails = $data['userEmails'];
 
+		$emails = explode(",", $emails);
+
 		// back end validation
 
 		$validator = new ValidateRegisterData($firstName, $lastName, $email, $password, $emails);

@@ -56,6 +56,12 @@ class ValidateRegisterData
 			$emailError = 'Email address is not valid.';
 		} else {
 			// check email exists
+			foreach ($this->emails as $key => $value) {
+				if( $this->email == $value ){
+					$error = true;
+					$emailError = 'Email address already exists.';
+				}
+			}
 		}
 
 		if( empty($this->password) ){
