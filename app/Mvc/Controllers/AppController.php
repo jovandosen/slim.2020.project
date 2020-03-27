@@ -56,7 +56,7 @@ class AppController extends Controller
 		if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
 			return $response->withHeader('Location', '/app');
 		}
-		
+
 		$view = $this->container->get('twig');
 
 		echo $view->render('login.twig');
@@ -87,5 +87,36 @@ class AppController extends Controller
 		session_unset();
 		session_destroy();
 		return $response->withHeader('Location', '/login');
+	}
+
+	public function getEmails($request, $response)
+	{
+		$connection = new \mysqli('localhost', 'root', '', 'slim2020');
+
+		if( $connection->connect_error ){
+			die("Error while connecting to database:" . $connection->connect_error);
+		}
+
+		$sql = "SELECT email FROM users";
+
+		$records = $connection->query($sql);
+
+		$emails = [];
+
+		if( $records->num_rows > 0 ){
+			while( $row = mysqli_fetch_object($records) ){
+				$emails[] = $row->email;
+			}
+		}
+
+		$emails = json_encode($emails);
+
+		$records->close();
+
+		$connection->close();
+
+		echo $emails;
+
+		return $response;
 	}
 }

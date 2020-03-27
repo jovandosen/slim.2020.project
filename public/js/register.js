@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+	getEmails();
+
 	$("#register-button").on("click", function(element){
 
 		element.preventDefault();
@@ -68,14 +70,26 @@ $(document).ready(function(){
 			$("#email-help").text(emailErrorMessage);
 			$("#email-help").attr("style", "color: red !important");
 			$("#email").css({"border":"1px solid red"});
+		} else if( validateEmailAddress(email) === false ){ 
+			error = true;
+			emailErrorMessage = 'Email address is not valid.';
+			$("#email-help").text(emailErrorMessage);
+			$("#email-help").attr("style", "color: red !important");
+			$("#email").css({"border":"1px solid red"});	 
 		} else {
-			if( validateEmailAddress(email) === false ){
-				error = true;
-				emailErrorMessage = 'Email address is not valid.';
-				$("#email-help").text(emailErrorMessage);
-				$("#email-help").attr("style", "color: red !important");
-				$("#email").css({"border":"1px solid red"});
-			} 
+			var emailsData = $("#user-emails").val();
+			emailsData = emailsData.split(",");
+			if( emailsData != '' ){
+				for(var i = 0; i < emailsData.length; i++){
+					if( email == emailsData[i] ){
+						error = true;
+						emailErrorMessage = 'Email address already exists.';
+						$("#email-help").text(emailErrorMessage);
+						$("#email-help").attr("style", "color: red !important");
+						$("#email").css({"border":"1px solid red"});
+					}
+				}
+			}
 		}
 
 		if( emailErrorMessage == '' ){
@@ -119,4 +133,23 @@ function validateEmailAddress(email)
 {
 	var regularEx = /\S+@\S+\.\S+/;
     return regularEx.test(email);
+}
+
+function getEmails()
+{
+	$.ajax({
+		url: "/emails",
+		method: "GET",
+		success: function(response){
+			if(response){
+				var emails = JSON.parse(response);
+				$("#user-emails").val(emails);
+			} else {
+				$("#user-emails").val('');
+			}
+		},
+		error: function(){
+			console.log('not good');
+		}
+	});
 }
