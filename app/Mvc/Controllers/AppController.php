@@ -3,6 +3,7 @@
 namespace App\Mvc\Controllers;
 
 use App\Mvc\Models\User;
+use App\Services\ValidateRegisterData;
 
 class AppController extends Controller
 {
@@ -36,19 +37,30 @@ class AppController extends Controller
 		$lastName = $data['lastName'];
 		$email = $data['email'];
 		$password = $data['password'];
+		$emails = $data['userEmails'];
 
-		$user = new User;
+		// back end validation
 
-		$user->firstName = $firstName;
-		$user->lastName = $lastName;
-		$user->email = $email;
-		$user->password = password_hash($password, PASSWORD_DEFAULT);
+		$validator = new ValidateRegisterData($firstName, $lastName, $email, $password, $emails);
 
-		$user->save();
+		$result = $validator->validateData();
 
-		$_SESSION['userEmail'] = $email;
+		// end of back end validation
 
-		return $response->withHeader('Location', '/app');
+		if( $result === false ){
+			$user = new User;
+
+			$user->firstName = $firstName;
+			$user->lastName = $lastName;
+			$user->email = $email;
+			$user->password = password_hash($password, PASSWORD_DEFAULT);
+
+			$user->save();
+
+			$_SESSION['userEmail'] = $email;
+
+			return $response->withHeader('Location', '/app');
+		}
 	}
 
 	public function login($request, $response)
