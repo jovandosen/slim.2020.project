@@ -72,3 +72,5 @@ $app->post('/register', 'AppController:registerData');
 $app->get('/login', 'AppController:login')->setName('login');
 
 $app->get('/app', 'AppController:appArea')->setName('app.area');
+
+$app->get('/logout', 'AppController:logoutUser')->setName('user.logout');

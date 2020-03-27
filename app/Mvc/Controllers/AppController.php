@@ -17,6 +17,10 @@ class AppController extends Controller
 
 	public function register($request, $response)
 	{
+		if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
+			return $response->withHeader('Location', '/app');
+		}
+
 		$view = $this->container->get('twig');
 
 		echo $view->render('register.twig');
@@ -42,11 +46,17 @@ class AppController extends Controller
 
 		$user->save();
 
+		$_SESSION['userEmail'] = $email;
+
 		return $response->withHeader('Location', '/app');
 	}
 
 	public function login($request, $response)
 	{
+		if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
+			return $response->withHeader('Location', '/app');
+		}
+		
 		$view = $this->container->get('twig');
 
 		echo $view->render('login.twig');
@@ -56,10 +66,26 @@ class AppController extends Controller
 
 	public function appArea($request, $response)
 	{
+		$user = '';
+
+		if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
+			$email = $_SESSION['userEmail'];
+			$user = User::where('email', $email)->first();
+		} else {
+			return $response->withHeader('Location', '/login');
+		}
+
 		$view = $this->container->get('twig');
 
-		echo $view->render('app.twig');
+		echo $view->render('app.twig', ['user' => $user]);
 
 		return $response;
+	}
+
+	public function logoutUser($request, $response)
+	{
+		session_unset();
+		session_destroy();
+		return $response->withHeader('Location', '/login');
 	}
 }
