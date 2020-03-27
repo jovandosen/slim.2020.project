@@ -21,7 +21,7 @@ $capsule = new Capsule;
 $capsule->addConnection([
     'driver'    => 'mysql',
     'host'      => 'localhost',
-    'database'  => 'slim',
+    'database'  => 'slim2020',
     'username'  => 'root',
     'password'  => '',
     'charset'   => 'utf8',

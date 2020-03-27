@@ -2,6 +2,8 @@
 
 namespace App\Mvc\Controllers;
 
+use App\Mvc\Models\User;
+
 class AppController extends Controller
 {
 	public function home($request, $response)
@@ -24,9 +26,23 @@ class AppController extends Controller
 
 	public function registerData($request, $response)
 	{
-		echo "string";
+		$data = $request->getParsedBody();
 
-		return $response;
+		$firstName = $data['firstName'];
+		$lastName = $data['lastName'];
+		$email = $data['email'];
+		$password = $data['password'];
+
+		$user = new User;
+
+		$user->firstName = $firstName;
+		$user->lastName = $lastName;
+		$user->email = $email;
+		$user->password = password_hash($password, PASSWORD_DEFAULT);
+
+		$user->save();
+
+		return $response->withHeader('Location', '/app');
 	}
 
 	public function login($request, $response)
@@ -34,6 +50,15 @@ class AppController extends Controller
 		$view = $this->container->get('twig');
 
 		echo $view->render('login.twig');
+
+		return $response;
+	}
+
+	public function appArea($request, $response)
+	{
+		$view = $this->container->get('twig');
+
+		echo $view->render('app.twig');
 
 		return $response;
 	}
