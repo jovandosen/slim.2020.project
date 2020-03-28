@@ -32,3 +32,11 @@
 	left: -3px;
 	min-width: 8rem;
 }
+
+.wrong-password {
+	border: 1px solid red;
+}
+
+.remember-me {
+	margin-bottom: 12px;
+}

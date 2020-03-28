@@ -19,6 +19,10 @@ class AppController extends Controller
 
 	public function register($request, $response)
 	{
+		if( isset($_COOKIE['userDetails']) && !empty($_COOKIE['userDetails']) ){
+			return $response->withHeader('Location', '/app');
+		}
+
 		if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
 			return $response->withHeader('Location', '/app');
 		}
@@ -68,6 +72,10 @@ class AppController extends Controller
 
 	public function login($request, $response)
 	{
+		if( isset($_COOKIE['userDetails']) && !empty($_COOKIE['userDetails']) ){
+			return $response->withHeader('Location', '/app');
+		}
+
 		if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
 			return $response->withHeader('Location', '/app');
 		}
@@ -87,6 +95,12 @@ class AppController extends Controller
 		$password = $data['password'];
 		$emails = $data['userEmails'];
 
+		if( isset($data['saveUserData']) ){
+			$rememberMe = $data['saveUserData'];
+		} else {
+			$rememberMe = 'off';
+		}
+
 		$emails = explode(",", $emails);
 
 		// back end validation
@@ -98,9 +112,16 @@ class AppController extends Controller
 			$user = User::where("email", $email)->first();
 			$checkPassword = password_verify($password, $user->password);
 			if( $checkPassword ){
-				echo "Logged";
+				$_SESSION['userEmail'] = $user->email;
+				if( $rememberMe == "on" ){
+					setcookie("userDetails", $user->email, time()+3600);
+				}
+				return $response->withHeader('Location', '/app');
 			} else {
-				echo "Not logged";
+				$passwordWrong = 'wrong';
+				$emailOk = $user->email;
+				$view = $this->container->get('twig');
+				echo $view->render('login.twig', ['passwordWrong' => $passwordWrong, 'emailOk' => $emailOk]);
 			}
 		}
 
@@ -111,7 +132,10 @@ class AppController extends Controller
 	{
 		$user = '';
 
-		if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
+		if( isset($_COOKIE['userDetails']) && !empty($_COOKIE['userDetails']) ){
+			$email = $_COOKIE['userDetails'];
+			$user = User::where('email', $email)->first();
+		} else if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
 			$email = $_SESSION['userEmail'];
 			$user = User::where('email', $email)->first();
 		} else {
@@ -129,6 +153,9 @@ class AppController extends Controller
 	{
 		session_unset();
 		session_destroy();
+		if( isset($_COOKIE['userDetails']) ){
+			setcookie("userDetails", "", time()-3600);
+		}
 		return $response->withHeader('Location', '/login');
 	}
 
