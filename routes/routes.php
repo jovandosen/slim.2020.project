@@ -70,6 +70,7 @@ $app->get('/register', 'AppController:register')->setName('register');
 $app->post('/register', 'AppController:registerData');
 
 $app->get('/login', 'AppController:login')->setName('login');
+$app->post('/login', 'AppController:loginData');
 
 $app->get('/app', 'AppController:appArea')->setName('app.area');
 

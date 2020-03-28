@@ -4,6 +4,7 @@ namespace App\Mvc\Controllers;
 
 use App\Mvc\Models\User;
 use App\Services\ValidateRegisterData;
+use App\Services\ValidateLoginData;
 
 class AppController extends Controller
 {
@@ -74,6 +75,34 @@ class AppController extends Controller
 		$view = $this->container->get('twig');
 
 		echo $view->render('login.twig');
+
+		return $response;
+	}
+
+	public function loginData($request, $response)
+	{
+		$data = $request->getParsedBody();
+
+		$email = $data['email'];
+		$password = $data['password'];
+		$emails = $data['userEmails'];
+
+		$emails = explode(",", $emails);
+
+		// back end validation
+		$validator = new ValidateLoginData($email, $password, $emails);
+
+		$result = $validator->validateData();
+
+		if( $result === false ){
+			$user = User::where("email", $email)->first();
+			$checkPassword = password_verify($password, $user->password);
+			if( $checkPassword ){
+				echo "Logged";
+			} else {
+				echo "Not logged";
+			}
+		}
 
 		return $response;
 	}
