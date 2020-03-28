@@ -66,6 +66,8 @@ class AppController extends Controller
 
 			$_SESSION['userEmail'] = $email;
 
+			$this->container->get('flash')->addMessage('Registered', 'You have successfully registered.');
+
 			return $response->withHeader('Location', '/app');
 		}
 	}
@@ -130,6 +132,14 @@ class AppController extends Controller
 
 	public function appArea($request, $response)
 	{
+		$message = $this->container->get('flash')->getMessages('Registered');
+
+		if( !empty($message) ){
+			$message = $message['Registered'][0];
+		} else {
+			$message = '';
+		}
+
 		$user = '';
 
 		if( isset($_COOKIE['userDetails']) && !empty($_COOKIE['userDetails']) ){
@@ -144,7 +154,7 @@ class AppController extends Controller
 
 		$view = $this->container->get('twig');
 
-		echo $view->render('app.twig', ['user' => $user]);
+		echo $view->render('app.twig', ['user' => $user, 'message' => $message]);
 
 		return $response;
 	}

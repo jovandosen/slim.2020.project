@@ -53,6 +53,10 @@ $container->set('twig', function(){
 	return $twig;
 });
 
+$container->set('flash', function(){
+    return new \Slim\Flash\Messages();
+});
+
 $container->set('fooTest', function(){
 	return new Foo();
 });
