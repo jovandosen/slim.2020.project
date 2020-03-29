@@ -5,6 +5,7 @@ namespace App\Mvc\Controllers;
 use App\Mvc\Models\User;
 use App\Services\ValidateRegisterData;
 use App\Services\ValidateLoginData;
+use App\Services\ValidateProfileData;
 
 class AppController extends Controller
 {
@@ -134,10 +135,16 @@ class AppController extends Controller
 
 	public function appArea($request, $response)
 	{
-		$message = $this->container->get('flash')->getMessages('Registered');
+		//$message = $this->container->get('flash')->getMessages('Registered');
 
-		if( !empty($message) ){
+		//$messageUpdateAction = $this->container->get('flash')->getMessages('Updated');
+
+		$message = $this->container->get('flash')->getMessages();
+
+		if( !empty($message) && isset($message['Registered']) ){
 			$message = $message['Registered'][0];
+		} else if( isset($message['Updated']) ) {
+			$message = $message['Updated'][0];
 		} else {
 			$message = '';
 		}
@@ -225,7 +232,38 @@ class AppController extends Controller
 
 	public function profileData($request, $response)
 	{
-		echo "So far so good";
+		$data = $request->getParsedBody();
+
+		$firstName = $data['firstName'];
+		$lastName = $data['lastName'];
+		$email = $data['email'];
+		$emails = $data['userEmails'];
+		$oldEmail = $data['oldUserEmail'];
+
+		$emails = explode(",", $emails);
+
+		// validation
+		$validator = new ValidateProfileData($firstName, $lastName, $email, $oldEmail, $emails);
+
+		$result = $validator->validateData();
+
+		if( $result === false ){
+
+			$user = User::where('email', $oldEmail)->first();
+
+			$user->firstName = $firstName;
+			$user->lastName = $lastName;
+			$user->email = $email;
+
+			$user->save();
+
+			$_SESSION['userEmail'] = $email;
+
+			$this->container->get('flash')->addMessage('Updated', 'You have successfully updated data.');
+
+			return $response->withHeader('Location', '/app');
+
+		}
 
 		return $response;
 	}
