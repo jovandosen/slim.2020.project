@@ -9,6 +9,8 @@ use App\Services\Foo;
 use App\Mvc\Controllers\TestController;
 use Slim\Routing\RouteCollectorProxy;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -55,6 +57,13 @@ $container->set('twig', function(){
 
 $container->set('flash', function(){
     return new \Slim\Flash\Messages();
+});
+
+$container->set('logger', function(){
+    $logger = new Logger('Logger');
+    $fileHandler = new StreamHandler(__DIR__ . '/../logs/app.log');
+    $logger->pushHandler($fileHandler);
+    return $logger;
 });
 
 $container->set('fooTest', function(){

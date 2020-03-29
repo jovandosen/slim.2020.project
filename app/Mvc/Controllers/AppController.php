@@ -66,6 +66,8 @@ class AppController extends Controller
 
 			$_SESSION['userEmail'] = $email;
 
+			$this->container->get('logger')->info('New user registered.');
+
 			$this->container->get('flash')->addMessage('Registered', 'You have successfully registered.');
 
 			return $response->withHeader('Location', '/app');
