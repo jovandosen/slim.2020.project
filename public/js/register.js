@@ -127,6 +127,19 @@ $(document).ready(function(){
 
 	});
 
+	$("#email").keydown(function(event){
+		preventCharacters(event);
+		preventEnter(event);
+	});
+
+	$("#email").on("cut copy paste", function(event){
+		event.preventDefault();
+	});
+
+	$("#password, #first-name, #last-name").keydown(function(event){
+		preventEnter(event);
+	});
+
 });
 
 function validateEmailAddress(email)
@@ -152,4 +165,29 @@ function getEmails()
 			console.log('not good');
 		}
 	});
+}
+
+function preventCharacters(event)
+{
+	var eventKeyCode = event.keyCode; // character number
+	var eventKey = event.key; // character
+
+	var regularExp = /[0-9a-zA-Z.@]/g;
+
+	if( !regularExp.test(eventKey) ){
+		event.preventDefault();
+		return false;
+	}
+}
+
+function preventEnter(event)
+{
+	var eventKeyCode = event.keyCode; // character number
+
+	var values = [13];
+
+	if( $.inArray(eventKeyCode, values) !== -1 ){
+		event.preventDefault();
+		return false;
+	}
 }
