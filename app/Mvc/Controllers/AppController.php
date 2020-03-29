@@ -201,4 +201,32 @@ class AppController extends Controller
 
 		return $response;
 	}
+
+	public function profile($request, $response)
+	{
+		$user = '';
+
+		if( isset($_COOKIE['userDetails']) && !empty($_COOKIE['userDetails']) ){
+			$email = $_COOKIE['userDetails'];
+			$user = User::where('email', $email)->first();
+		} else if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
+			$email = $_SESSION['userEmail'];
+			$user = User::where('email', $email)->first();
+		} else {
+			return $response->withHeader('Location', '/login');
+		}
+
+		$view = $this->container->get('twig');
+
+		echo $view->render('profile.twig', ['user' => $user]);
+
+		return $response;
+	}
+
+	public function profileData($request, $response)
+	{
+		echo "So far so good";
+
+		return $response;
+	}
 }

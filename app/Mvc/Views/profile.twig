@@ -1,0 +1,37 @@
+{% extends 'home.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+	<div class="profile-form-box">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<form method="POST" action="/profile" id="profile-form">
+						<div class="form-group">
+							<label for="first-name"><i class="fa fa-user fa-lg add-mar"></i>First Name:</label>
+							<input type="text" name="firstName" id="first-name" class="form-control" placeholder="First Name..." autocomplete="off" minlength="3" maxlength="20" value="{{ user.firstName }}">
+							<small id="first-name-help" class="form-text text-muted">Enter your first name.</small>
+						</div>
+						<div class="form-group">
+							<label for="last-name"><i class="fa fa-user fa-lg add-mar"></i>Last Name:</label>
+							<input type="text" name="lastName" id="last-name" class="form-control" placeholder="Last Name..." autocomplete="off" minlength="3" maxlength="20" value="{{ user.lastName }}">
+							<small id="last-name-help" class="form-text text-muted">Enter your last name.</small>
+						</div>
+						<div class="form-group">
+							<label for="email"><i class="fa fa-envelope fa-lg add-mar"></i>Email:</label>
+							<input type="email" name="email" id="email" class="form-control" placeholder="Email address..." autocomplete="off" value="{{ user.email }}">
+							<small id="email-help" class="form-text text-muted">Enter your email address.</small>
+						</div>
+						<input type="submit" value="UPDATE" class="btn btn-primary" id="profile-button">
+						<input type="hidden" name="userEmails" value="" id="user-emails">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="js/profile.js"></script>
+{% endblock %}
