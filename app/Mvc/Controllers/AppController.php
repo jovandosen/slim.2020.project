@@ -135,10 +135,6 @@ class AppController extends Controller
 
 	public function appArea($request, $response)
 	{
-		//$message = $this->container->get('flash')->getMessages('Registered');
-
-		//$messageUpdateAction = $this->container->get('flash')->getMessages('Updated');
-
 		$message = $this->container->get('flash')->getMessages();
 
 		if( !empty($message) && isset($message['Registered']) ){
@@ -263,6 +259,37 @@ class AppController extends Controller
 
 			return $response->withHeader('Location', '/app');
 
+		}
+
+		return $response;
+	}
+
+	public function getPassword($request, $response)
+	{
+		$view = $this->container->get('twig');
+
+		echo $view->render('password.twig');
+
+		return $response;
+	}
+
+	public function changePasswordData($request, $response)
+	{
+		$data = $request->getParsedBody();
+
+		$passwordOld = $data['passwordOld'];
+		$passwordNew = $data['passwordNew'];
+
+		$user = User::where("email", $_SESSION['userEmail'])->first();
+
+		if($user){
+			if( password_verify($passwordOld, $user->password) ){
+				echo "Password ok";
+			} else {
+				$errorMess = 'Wrong password, try again.';
+				$view = $this->container->get('twig');
+				echo $view->render('password.twig', ['errorMessage' => $errorMess]);
+			}
 		}
 
 		return $response;

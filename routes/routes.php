@@ -4,11 +4,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Routing\RouteCollectorProxy;
 
-/*$app->get('/', function(Request $request, Response $response, $args){
-	$response->getBody()->write('Hello world.');
-	return $response;
-});*/
-
 $app->get('/test', function(Request $request, Response $response, $args){
 	$response->getBody()->write('Test route');
 	return $response;
@@ -80,3 +75,6 @@ $app->get('/emails', 'AppController:getEmails')->setName('emails');
 
 $app->get('/profile', 'AppController:profile')->setName('profile');
 $app->post('/profile', 'AppController:profileData');
+
+$app->get('/password', 'AppController:getPassword')->setName('password');
+$app->post('/password', 'AppController:changePasswordData');
