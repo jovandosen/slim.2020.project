@@ -13,11 +13,12 @@
 							<input type="file" name="picture" id="picture" class="form-control-file">
 							<input type="submit" value="ADD IMAGE" class="btn btn-primary" id="picture-button" style="margin-top: 10px;">
 						</div>
+						<input type="hidden" name="userID" value="{{ user.id }}">
 					</form>
 				</div>
 				<div class="col-6">
 					{% if user.image %}
-						<img src="images/aadad.jpg" class="img-fluid img-thumbnail">
+						<img src="images/pictures/{{ user.image }}" class="img-fluid img-thumbnail">
 					{% else %}
 						<p>No image</p>
 					{% endif %}

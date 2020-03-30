@@ -346,8 +346,25 @@ class AppController extends Controller
 
 	public function pictureData($request, $response)
 	{
-		echo "Picture logic";
+		$uploadedFile = $request->getUploadedFiles();
 
-		return $response;
+		$file = $uploadedFile['picture'];
+
+		if( $file->getError() === UPLOAD_ERR_OK ){
+			$fileName = $file->getClientFilename();
+			$fileSize = $file->getSize();
+			$fileType = $file->getClientMediaType();
+			$file->moveTo('C:\xampp\htdocs\slim.2020.project\public\images\pictures\\' . $fileName);
+
+			$details = $request->getParsedBody();
+			$userID = $details['userID'];
+
+			$user = User::where("id", $userID)->first();
+			$user->image = $fileName;
+			$user->save();
+
+		}
+
+		return $response->withHeader('Location', '/picture');
 	}
 }
