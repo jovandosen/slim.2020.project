@@ -322,4 +322,32 @@ class AppController extends Controller
 
 		return $response;
 	}
+
+	public function picture($request, $response)
+	{
+		$user = '';
+
+		if( isset($_COOKIE['userDetails']) && !empty($_COOKIE['userDetails']) ){
+			$userEmailDetail = $_COOKIE['userDetails'];
+			$user = User::where("email", $userEmailDetail)->first();
+		} else {
+			if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
+				$userEmailDetail = $_SESSION['userEmail'];
+				$user = User::where("email", $userEmailDetail)->first();
+			}
+		}
+
+		$view = $this->container->get('twig');
+
+		echo $view->render('picture.twig', ['user' => $user]);
+
+		return $response;
+	}
+
+	public function pictureData($request, $response)
+	{
+		echo "Picture logic";
+
+		return $response;
+	}
 }

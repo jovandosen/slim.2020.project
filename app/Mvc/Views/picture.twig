@@ -1,0 +1,32 @@
+{% extends 'home.twig' %}
+
+{% block title %}Picture{% endblock %}
+
+{% block content %}
+	<div class="register-form-box">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-6">
+					<form method="POST" action="/picture" id="picture-form" enctype="multipart/form-data">
+						<div class="form-group">
+							<label for="picture">Profile picture:</label>
+							<input type="file" name="picture" id="picture" class="form-control-file">
+							<input type="submit" value="ADD IMAGE" class="btn btn-primary" id="picture-button" style="margin-top: 10px;">
+						</div>
+					</form>
+				</div>
+				<div class="col-6">
+					{% if user.image %}
+						<img src="images/aadad.jpg" class="img-fluid img-thumbnail">
+					{% else %}
+						<p>No image</p>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="js/picture.js"></script>
+{% endblock %}

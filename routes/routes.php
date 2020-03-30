@@ -78,3 +78,6 @@ $app->post('/profile', 'AppController:profileData');
 
 $app->get('/password', 'AppController:getPassword')->setName('password');
 $app->post('/password', 'AppController:changePasswordData');
+
+$app->get('/picture', 'AppController:picture')->setName('picture');
+$app->post('/picture', 'AppController:pictureData');
