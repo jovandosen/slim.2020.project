@@ -11,9 +11,21 @@ class AppController extends Controller
 {
 	public function home($request, $response)
 	{
+		$user = '';
+
+		if( isset($_COOKIE['userDetails']) && !empty($_COOKIE['userDetails']) ){
+			$userEmailDetail = $_COOKIE['userDetails'];
+			$user = User::where("email", $userEmailDetail)->first();
+		} else {
+			if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
+				$userEmailDetail = $_SESSION['userEmail'];
+				$user = User::where("email", $userEmailDetail)->first();
+			}
+		}
+
 		$view = $this->container->get('twig');
 
-		echo $view->render('home.twig');
+		echo $view->render('home.twig', ['user' => $user]);
 
 		return $response;
 	}
@@ -266,9 +278,21 @@ class AppController extends Controller
 
 	public function getPassword($request, $response)
 	{
+		$user = '';
+
+		if( isset($_COOKIE['userDetails']) && !empty($_COOKIE['userDetails']) ){
+			$userEmailDetail = $_COOKIE['userDetails'];
+			$user = User::where("email", $userEmailDetail)->first();
+		} else {
+			if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
+				$userEmailDetail = $_SESSION['userEmail'];
+				$user = User::where("email", $userEmailDetail)->first();
+			}
+		}
+
 		$view = $this->container->get('twig');
 
-		echo $view->render('password.twig');
+		echo $view->render('password.twig', ['user' => $user]);
 
 		return $response;
 	}
