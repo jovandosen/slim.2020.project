@@ -284,7 +284,11 @@ class AppController extends Controller
 
 		if($user){
 			if( password_verify($passwordOld, $user->password) ){
-				echo "Password ok";
+				$user->password = password_hash($passwordNew, PASSWORD_DEFAULT);
+				$user->save();
+				$successMessage = 'Password successfully changed.';
+				$view = $this->container->get('twig');
+				echo $view->render('password.twig', ['successMessage' => $successMessage]);
 			} else {
 				$errorMess = 'Wrong password, try again.';
 				$view = $this->container->get('twig');
