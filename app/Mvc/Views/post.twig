@@ -7,7 +7,7 @@
 		<div class="container-fluid">
 
 			{% if message %}
-				<div class="alert alert-success text-center" role="alert" id="register-user-flash-message" style="position: absolute;top: 70px;">
+				<div class="alert alert-success text-center" role="alert" id="register-user-flash-message" style="position: absolute;top: 70px;left: 40%;">
 						{{ message }}
 				</div>
 			{% endif %}
@@ -41,4 +41,5 @@
 
 {% block scripts %}
 	<script src="js/post.js"></script>
+	<script src="js/flash-message.js"></script>
 {% endblock %}
