@@ -28,9 +28,9 @@ function validatePostData()
 		$("#title").css({"border":"1px solid red"});
 	} else {
 		var postTitleLength = postTitle.length;
-		if( postTitleLength < 3 || postTitleLength > 20 ){
+		if( postTitleLength < 3 || postTitleLength > 30 ){
 			error = true;
-			postTitleError = 'Post Title must have atleast 3 characters, but not more than 20.';
+			postTitleError = 'Post Title must have atleast 3 characters, but not more than 30.';
 			$("#title-help").text(postTitleError);
 			$("#title-help").attr("style", "color: red !important");
 			$("#title").css({"border":"1px solid red"});

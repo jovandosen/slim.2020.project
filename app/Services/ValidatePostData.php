@@ -26,7 +26,7 @@ class ValidatePostData
 			$error = true;
 			$postTitleError = 'Post Title can not be empty.';
 		} else {
-			if( strlen($this->postTitle) < 3 || strlen($this->postTitle) > 20 ){
+			if( strlen($this->postTitle) < 3 || strlen($this->postTitle) > 30 ){
 				$error = true;
 				$postTitleError = 'Post Title must have atleast 3 characters, but not more than 20.';
 			}

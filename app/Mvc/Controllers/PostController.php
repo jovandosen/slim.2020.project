@@ -3,17 +3,26 @@
 namespace App\Mvc\Controllers;
 
 use App\Mvc\Models\User;
+use App\Mvc\Models\Post;
 use App\Services\ValidatePostData;
 
 class PostController extends Controller
 {
 	public function postView($request, $response)
 	{
+		$message = $this->container->get('flash')->getMessages();
+
+		if( !empty($message) ){
+			$message = $message['postCreated'][0];
+		} else {
+			$message = '';
+		}
+
 		$user = $request->getParsedBody();
 
 		$view = $this->container->get('twig');
 
-		echo $view->render('post.twig', ['user' => $user]);
+		echo $view->render('post.twig', ['user' => $user, 'message' => $message]);
 
 		return $response;
 	}
@@ -45,9 +54,20 @@ class PostController extends Controller
 			}
 
 			// save post
+			$post = new Post;
+
+			$post->user_id = $userID;
+			$post->title = $postTitle;
+			$post->content = $postContent;
+			$post->image = $fileName;
+
+			$post->save();
+
+			$this->container->get('logger')->info('New post added.');
+			$this->container->get('flash')->addMessage('postCreated', 'You have successfully created post.');
 
 		}
 
-		return $response;
+		return $response->withHeader('Location', '/post');
 	}
 }
