@@ -4,7 +4,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Routing\RouteCollectorProxy;
 use App\Middleware\AuthMiddleware;
-use App\Middleware\HomeUserAuthMiddleware;
 
 $app->get('/test', function(Request $request, Response $response, $args){
 	$response->getBody()->write('Test route');
@@ -61,7 +60,7 @@ $app->get('/user', 'TestController:createUser');
 
 // App routes
 
-$app->get('/', 'AppController:home')->setName('home')->add(new HomeUserAuthMiddleware());
+$app->get('/', 'AppController:home')->setName('home')->add(new AuthMiddleware());
 
 $app->get('/register', 'AppController:register')->setName('register');
 $app->post('/register', 'AppController:registerData');

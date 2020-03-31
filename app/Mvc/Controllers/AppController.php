@@ -149,6 +149,10 @@ class AppController extends Controller
 
 		$user = $request->getParsedBody();
 
+		if( empty($user) ){
+			return $response->withHeader('Location', '/login');
+		}
+
 		$view = $this->container->get('twig');
 
 		echo $view->render('app.twig', ['user' => $user, 'message' => $message]);
@@ -201,6 +205,10 @@ class AppController extends Controller
 	{
 		$user = $request->getParsedBody();
 
+		if( empty($user) ){
+			return $response->withHeader('Location', '/login');
+		}
+
 		$view = $this->container->get('twig');
 
 		echo $view->render('profile.twig', ['user' => $user]);
@@ -250,6 +258,10 @@ class AppController extends Controller
 	{
 		$user = $request->getParsedBody();
 
+		if( empty($user) ){
+			return $response->withHeader('Location', '/login');
+		}
+
 		$view = $this->container->get('twig');
 
 		echo $view->render('password.twig', ['user' => $user]);
@@ -286,6 +298,10 @@ class AppController extends Controller
 	public function picture($request, $response)
 	{
 		$user = $request->getParsedBody();
+
+		if( empty($user) ){
+			return $response->withHeader('Location', '/login');
+		}
 
 		$view = $this->container->get('twig');
 

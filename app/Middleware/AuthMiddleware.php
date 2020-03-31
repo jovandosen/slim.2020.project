@@ -19,9 +19,7 @@ class AuthMiddleware
 		} else if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ) {	
 			$userEmailDetail = $_SESSION['userEmail'];
 			$user = User::where("email", $userEmailDetail)->first();
-		} else {
-			return $response->withHeader('Location', '/login');
-		}
+		} 
 
 		$request = $request->withParsedBody($user);
 
