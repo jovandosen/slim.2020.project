@@ -284,11 +284,11 @@ class AppController extends Controller
 				$user->save();
 				$successMessage = 'Password successfully changed.';
 				$view = $this->container->get('twig');
-				echo $view->render('password.twig', ['successMessage' => $successMessage]);
+				echo $view->render('password.twig', ['successMessage' => $successMessage, 'user' => $user]);
 			} else {
 				$errorMess = 'Wrong password, try again.';
 				$view = $this->container->get('twig');
-				echo $view->render('password.twig', ['errorMessage' => $errorMess]);
+				echo $view->render('password.twig', ['errorMessage' => $errorMess, 'user' => $user]);
 			}
 		}
 
