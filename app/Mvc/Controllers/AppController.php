@@ -11,17 +11,7 @@ class AppController extends Controller
 {
 	public function home($request, $response)
 	{
-		$user = '';
-
-		if( isset($_COOKIE['userDetails']) && !empty($_COOKIE['userDetails']) ){
-			$userEmailDetail = $_COOKIE['userDetails'];
-			$user = User::where("email", $userEmailDetail)->first();
-		} else {
-			if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
-				$userEmailDetail = $_SESSION['userEmail'];
-				$user = User::where("email", $userEmailDetail)->first();
-			}
-		}
+		$user = $request->getParsedBody();
 
 		$view = $this->container->get('twig');
 
@@ -157,17 +147,7 @@ class AppController extends Controller
 			$message = '';
 		}
 
-		$user = '';
-
-		if( isset($_COOKIE['userDetails']) && !empty($_COOKIE['userDetails']) ){
-			$email = $_COOKIE['userDetails'];
-			$user = User::where('email', $email)->first();
-		} else if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
-			$email = $_SESSION['userEmail'];
-			$user = User::where('email', $email)->first();
-		} else {
-			return $response->withHeader('Location', '/login');
-		}
+		$user = $request->getParsedBody();
 
 		$view = $this->container->get('twig');
 
@@ -219,17 +199,7 @@ class AppController extends Controller
 
 	public function profile($request, $response)
 	{
-		$user = '';
-
-		if( isset($_COOKIE['userDetails']) && !empty($_COOKIE['userDetails']) ){
-			$email = $_COOKIE['userDetails'];
-			$user = User::where('email', $email)->first();
-		} else if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
-			$email = $_SESSION['userEmail'];
-			$user = User::where('email', $email)->first();
-		} else {
-			return $response->withHeader('Location', '/login');
-		}
+		$user = $request->getParsedBody();
 
 		$view = $this->container->get('twig');
 
@@ -278,17 +248,7 @@ class AppController extends Controller
 
 	public function getPassword($request, $response)
 	{
-		$user = '';
-
-		if( isset($_COOKIE['userDetails']) && !empty($_COOKIE['userDetails']) ){
-			$userEmailDetail = $_COOKIE['userDetails'];
-			$user = User::where("email", $userEmailDetail)->first();
-		} else {
-			if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
-				$userEmailDetail = $_SESSION['userEmail'];
-				$user = User::where("email", $userEmailDetail)->first();
-			}
-		}
+		$user = $request->getParsedBody();
 
 		$view = $this->container->get('twig');
 
@@ -325,17 +285,7 @@ class AppController extends Controller
 
 	public function picture($request, $response)
 	{
-		$user = '';
-
-		if( isset($_COOKIE['userDetails']) && !empty($_COOKIE['userDetails']) ){
-			$userEmailDetail = $_COOKIE['userDetails'];
-			$user = User::where("email", $userEmailDetail)->first();
-		} else {
-			if( isset($_SESSION['userEmail']) && !empty($_SESSION['userEmail']) ){
-				$userEmailDetail = $_SESSION['userEmail'];
-				$user = User::where("email", $userEmailDetail)->first();
-			}
-		}
+		$user = $request->getParsedBody();
 
 		$view = $this->container->get('twig');
 

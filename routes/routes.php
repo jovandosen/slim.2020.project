@@ -3,6 +3,8 @@
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Routing\RouteCollectorProxy;
+use App\Middleware\AuthMiddleware;
+use App\Middleware\HomeUserAuthMiddleware;
 
 $app->get('/test', function(Request $request, Response $response, $args){
 	$response->getBody()->write('Test route');
@@ -59,7 +61,7 @@ $app->get('/user', 'TestController:createUser');
 
 // App routes
 
-$app->get('/', 'AppController:home')->setName('home');
+$app->get('/', 'AppController:home')->setName('home')->add(new HomeUserAuthMiddleware());
 
 $app->get('/register', 'AppController:register')->setName('register');
 $app->post('/register', 'AppController:registerData');
@@ -67,17 +69,17 @@ $app->post('/register', 'AppController:registerData');
 $app->get('/login', 'AppController:login')->setName('login');
 $app->post('/login', 'AppController:loginData');
 
-$app->get('/app', 'AppController:appArea')->setName('app.area');
+$app->get('/app', 'AppController:appArea')->setName('app.area')->add(new AuthMiddleware());
 
 $app->get('/logout', 'AppController:logoutUser')->setName('user.logout');
 
 $app->get('/emails', 'AppController:getEmails')->setName('emails');
 
-$app->get('/profile', 'AppController:profile')->setName('profile');
+$app->get('/profile', 'AppController:profile')->setName('profile')->add(new AuthMiddleware());
 $app->post('/profile', 'AppController:profileData');
 
-$app->get('/password', 'AppController:getPassword')->setName('password');
+$app->get('/password', 'AppController:getPassword')->setName('password')->add(new AuthMiddleware());
 $app->post('/password', 'AppController:changePasswordData');
 
-$app->get('/picture', 'AppController:picture')->setName('picture');
+$app->get('/picture', 'AppController:picture')->setName('picture')->add(new AuthMiddleware());
 $app->post('/picture', 'AppController:pictureData');
