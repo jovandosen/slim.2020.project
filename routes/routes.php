@@ -82,3 +82,5 @@ $app->post('/password', 'AppController:changePasswordData');
 
 $app->get('/picture', 'AppController:picture')->setName('picture')->add(new AuthMiddleware());
 $app->post('/picture', 'AppController:pictureData');
+
+$app->get('/post', 'PostController:postView')->setName('add.post')->add(new AuthMiddleware());

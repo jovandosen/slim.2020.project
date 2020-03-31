@@ -86,6 +86,10 @@ $container->set('AppController', function($container){
 	return new \App\Mvc\Controllers\AppController($container);
 });
 
+$container->set('PostController', function($container){
+    return new \App\Mvc\Controllers\PostController($container);
+});
+
 $app = AppFactory::create();
 
 $app->addRoutingMiddleware();

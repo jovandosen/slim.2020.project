@@ -1,0 +1,34 @@
+{% extends 'home.twig' %}
+
+{% block title %}Add Post{% endblock %}
+
+{% block content %}
+	<div class="register-form-box">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<form method="POST" action="/create/post" id="post-form">
+						<div class="form-group">
+							<label for="title">Post title:</label>
+							<input type="text" name="title" id="title" class="form-control" placeholder="Post Title..." autocomplete="off" minlength="3" maxlength="30">
+							<small id="title-help" class="form-text text-muted">Enter your post title.</small>
+						</div>
+						<div class="form-group">
+							<label for="content">Post content:</label>
+							<textarea class="form-control" id="content" name="content" rows="5" placeholder="Enter post content..."></textarea>
+						</div>
+						<div class="form-group">
+							<label for="image">Post Image:</label>
+							<input type="file" name="image" id="image" class="form-control-file">
+						</div>
+						<input type="submit" value="ADD POST" class="btn btn-primary" id="post-button">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="js/post.js"></script>
+{% endblock %}
