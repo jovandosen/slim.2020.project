@@ -73,14 +73,36 @@ class PostController extends Controller
 
 	public function getAllPosts($request, $response)
 	{
+		$message = $this->container->get('flash')->getMessages();
+
+		if( !empty($message) ){
+			$message = $message['postDeleted'][0];
+		} else {
+			$message = '';
+		}
+
 		$user = $request->getParsedBody();
 
 		$posts = User::find($user->id)->posts;
 
 		$view = $this->container->get('twig');
 
-		echo $view->render('posts.twig', ['user' => $user, 'posts' => $posts]);
+		echo $view->render('posts.twig', ['user' => $user, 'posts' => $posts, 'message' => $message]);
 
 		return $response;
+	}
+
+	public function deletePost($request, $response, $args)
+	{
+		$postID = $args['id'];
+
+		$post = Post::find($postID);
+
+		$post->delete();
+
+		$this->container->get('logger')->info('Post deleted.');
+		$this->container->get('flash')->addMessage('postDeleted', 'You have successfully deleted post.');
+
+		return $response->withHeader('Location', '/posts');
 	}
 }
