@@ -5,6 +5,7 @@ namespace App\Mvc\Controllers;
 use App\Mvc\Models\User;
 use App\Mvc\Models\Post;
 use App\Services\ValidatePostData;
+use App\Services\ValidatePostUpdateData;
 
 class PostController extends Controller
 {
@@ -75,8 +76,10 @@ class PostController extends Controller
 	{
 		$message = $this->container->get('flash')->getMessages();
 
-		if( !empty($message) ){
+		if( !empty($message) && !empty($message['postDeleted'][0]) ){
 			$message = $message['postDeleted'][0];
+		} else if( !empty($message['postUpdated'][0]) ) {
+			$message = $message['postUpdated'][0];
 		} else {
 			$message = '';
 		}
@@ -102,6 +105,67 @@ class PostController extends Controller
 
 		$this->container->get('logger')->info('Post deleted.');
 		$this->container->get('flash')->addMessage('postDeleted', 'You have successfully deleted post.');
+
+		return $response->withHeader('Location', '/posts');
+	}
+
+	public function updatePost($request, $response, $args)
+	{
+		$user = $request->getParsedBody();
+
+		$postID = $_GET['postId'];
+
+		$post = Post::find($postID);
+
+		$view = $this->container->get('twig');
+
+		echo $view->render('edit-post.twig', ['user' => $user, 'post' => $post]);
+
+		return $response;
+	}
+
+	public function updatePostData($request, $response)
+	{
+		$data = $request->getParsedBody();
+		$files = $request->getUploadedFiles();
+
+		$postTitle = $data['title'];
+		$postContent = $data['content'];
+		$userID = $data['userID'];
+		$postImageOld = $data['postImageData'];
+		$postId = $data['postIdDetail'];
+
+		$postImage = $files['image'];
+
+		$validator = new ValidatePostUpdateData($postTitle, $postContent, $postImage, $postImageOld);
+
+		$result = $validator->validate();
+
+		if( $result === false ){
+			
+			if( $postImage->getError() === UPLOAD_ERR_OK ){
+				$fileName = $postImage->getClientFilename();
+				$fileSize = $postImage->getSize();
+				$fileType = $postImage->getClientMediaType();
+				$postImage->moveTo('C:\xampp\htdocs\slim.2020.project\public\images\posts\\' . $fileName);
+			}
+
+			$post = Post::find($postId);
+
+			$post->user_id = $userID;
+			$post->title = $postTitle;
+			$post->content = $postContent;
+
+			if( isset($fileName) && !empty($fileName) ){
+				$post->image = $fileName;
+			}
+
+			$post->save();
+
+			$this->container->get('logger')->info('Post updated.');
+			$this->container->get('flash')->addMessage('postUpdated', 'You have successfully updated post.');
+
+		}
 
 		return $response->withHeader('Location', '/posts');
 	}

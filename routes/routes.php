@@ -89,3 +89,6 @@ $app->post('/post', 'PostController:postData');
 $app->get('/posts', 'PostController:getAllPosts')->setName('all.posts')->add(new AuthMiddleware());
 
 $app->get('/post/delete/{id}', 'PostController:deletePost');
+
+$app->get('/update', 'PostController:updatePost')->setName('update.post')->add(new AuthMiddleware());
+$app->post('/update', 'PostController:updatePostData');

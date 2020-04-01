@@ -28,7 +28,12 @@
 							<td>{{ post.title }}</td>
 							<td>{{ post.content }}</td>
 							<td><img src="images/posts/{{ post.image }}" width="40px" height="40px"></td>
-							<td><a href="#" class="btn btn-primary btn-sm">EDIT</a></td>
+							<td>
+								<form method="GET" action="/update">
+									<input type="hidden" name="postId" id="post-id" value="{{ post.id }}">
+									<button type="submit" class="btn btn-primary btn-sm">EDIT</button>
+								</form>
+							</td>
 							<td>
 								<form method="GET" action="/post/delete/{{ post.id }}" id="delete-post-form-{{ post.id }}">
 								</form>
