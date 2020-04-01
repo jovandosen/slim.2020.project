@@ -70,4 +70,17 @@ class PostController extends Controller
 
 		return $response->withHeader('Location', '/post');
 	}
+
+	public function getAllPosts($request, $response)
+	{
+		$user = $request->getParsedBody();
+
+		$posts = User::find($user->id)->posts;
+
+		$view = $this->container->get('twig');
+
+		echo $view->render('posts.twig', ['user' => $user, 'posts' => $posts]);
+
+		return $response;
+	}
 }

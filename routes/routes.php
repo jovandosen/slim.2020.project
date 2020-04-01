@@ -85,3 +85,5 @@ $app->post('/picture', 'AppController:pictureData');
 
 $app->get('/post', 'PostController:postView')->setName('add.post')->add(new AuthMiddleware());
 $app->post('/post', 'PostController:postData');
+
+$app->get('/posts', 'PostController:getAllPosts')->setName('all.posts')->add(new AuthMiddleware());
