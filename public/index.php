@@ -90,6 +90,10 @@ $container->set('PostController', function($container){
     return new \App\Mvc\Controllers\PostController($container);
 });
 
+$container->set('CommentController', function($container){
+    return new \App\Mvc\Controllers\CommentController($container);
+});
+
 $app = AppFactory::create();
 
 $app->addRoutingMiddleware();

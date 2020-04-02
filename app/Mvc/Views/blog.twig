@@ -51,13 +51,15 @@
 
 					<hr>
 
-					<form method="POST" action="#" id="comment-form">
+					<form method="POST" action="/comment" id="comment-form">
 						<div class="form-group">
 							<label for="comment">Comment:</label>
-							<input type="text" name="comment" id="comment" class="form-control">
+							<input type="text" name="comment" id="comment" class="form-control" autocomplete="off">
 							<small class="text-muted form-text" id="comment-help">Your comment</small>
 						</div>
-						<input type="submit" id="comment-button" value="ADD COMMENT" class="btn btn-primary btn-sm">
+						<button type="button" id="comment-button" class="btn btn-primary btn-sm">ADD COMMENT</button>
+						<input type="hidden" name="postID" value="" id="post-id">
+						<input type="hidden" name="userID" value="" id="user-id">
 					</form>
 
 				</div>

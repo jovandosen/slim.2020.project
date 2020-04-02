@@ -205,7 +205,7 @@ class PostController extends Controller
 			$userFirstName = $userData->firstName;
 			$userLastName = $userData->lastName;
 
-			$details = new PostDetails($postTitle, $postContent, $postImage, $userFirstName, $userLastName);
+			$details = new PostDetails($postTitle, $postContent, $postImage, $userFirstName, $userLastName, $postID, $userId);
 
 			$details = json_encode($details, JSON_PRETTY_PRINT);
 

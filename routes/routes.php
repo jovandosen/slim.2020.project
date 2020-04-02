@@ -96,3 +96,5 @@ $app->post('/update', 'PostController:updatePostData');
 $app->get('/blog', 'PostController:showBlog')->setName('blog.data')->add(new AuthMiddleware());
 
 $app->get('/get-post-data', 'PostController:getPostData')->setName('post.ajax.data');
+
+$app->post('/comment', 'CommentController:addComment')->setName('add.comment');
