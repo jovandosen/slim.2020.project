@@ -2,6 +2,8 @@
 
 namespace App\Mvc\Controllers;
 
+use App\Mvc\Models\Comment;
+
 class CommentController extends Controller
 {
 	public function addComment($request, $response)
@@ -12,6 +14,14 @@ class CommentController extends Controller
 		$postID = $data['postID'];
 		$userID = $data['userID'];
 
-		return $response;
+		$newComment = new Comment;
+
+		$newComment->post_id = $postID;
+		$newComment->user_id = $userID;
+		$newComment->comment = $comment;
+
+		$newComment->save();
+
+		return $response->withHeader('Location', '/blog');
 	}
 }

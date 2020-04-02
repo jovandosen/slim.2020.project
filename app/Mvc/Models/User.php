@@ -14,4 +14,9 @@ class User extends Model
 	{
 		return $this->hasMany('App\Mvc\Models\Post');
 	}
+
+	public function comments()
+	{
+		return $this->hasMany('App\Mvc\Models\Comment');
+	}
 }
