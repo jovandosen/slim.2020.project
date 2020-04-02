@@ -18,7 +18,7 @@
 						<tbody>
 							{% for post in posts %}
 								{% if post.user_id != user.id %}
-									<tr onclick="getPostData({{ post.id }})">
+									<tr onclick="getPostData({{ post.id }}, {{ user.id }})">
 										<td>{{ post.title }}</td>
 										<td>{{ post.content }}</td>
 										<td><img src="images/posts/{{ post.image }}" width="40px" height="40px"></td>

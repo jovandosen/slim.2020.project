@@ -12,14 +12,14 @@ $(document).ready(function(){
 
 });
 
-function getPostData(id)
+function getPostData(id, userID)
 {
 	var postID = id;
 
 	$.ajax({
 		url: "/get-post-data",
 		method: "GET",
-		data: {postID: postID},
+		data: {postID: postID, userID: userID},
 		success: function(response){
 			
 			var postDetails = JSON.parse(response);
@@ -31,13 +31,14 @@ function getPostData(id)
 			var userLastName = postDetails.userLastName;
 			var postId = postDetails.postID;
 			var userId = postDetails.userID;
+			var loggedUserID = postDetails.loggedUserID;
 
 			$("#title").val(postTitle);
 			$("textarea#content").val(postContent);
 			$("#author").val(userFirstName + " " + userLastName);
 			$("#post-image").attr("src", "images/posts/" + postImage);
 			$("#post-id").val(postId);
-			$("#user-id").val(userId);
+			$("#user-id").val(loggedUserID);
 
 			$("#comment-button").attr("disabled", false);
 
