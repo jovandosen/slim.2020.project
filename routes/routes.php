@@ -94,3 +94,5 @@ $app->get('/update', 'PostController:updatePost')->setName('update.post')->add(n
 $app->post('/update', 'PostController:updatePostData');
 
 $app->get('/blog', 'PostController:showBlog')->setName('blog.data')->add(new AuthMiddleware());
+
+$app->get('/get-post-data', 'PostController:getPostData')->setName('post.ajax.data');

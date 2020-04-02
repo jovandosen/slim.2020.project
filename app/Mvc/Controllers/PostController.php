@@ -6,6 +6,7 @@ use App\Mvc\Models\User;
 use App\Mvc\Models\Post;
 use App\Services\ValidatePostData;
 use App\Services\ValidatePostUpdateData;
+use App\Services\PostDetails;
 
 class PostController extends Controller
 {
@@ -179,6 +180,37 @@ class PostController extends Controller
 		$view = $this->container->get('twig');
 
 		echo $view->render('blog.twig', ['user' => $user, 'posts' => $posts]);
+
+		return $response;
+	}
+
+	public function getPostData($request, $response)
+	{
+		$ajaxCall = $request->getHeader('X-Requested-With');
+
+		if( $ajaxCall[0] === 'XMLHttpRequest' ){
+			
+			$postID = $_GET['postID'];
+
+			$postData = Post::find($postID);
+
+			$postTitle = $postData->title;
+			$postContent = $postData->content;
+			$postImage = $postData->image;
+
+			$userId = $postData->user_id;
+
+			$userData = User::find($userId);
+
+			$userFirstName = $userData->firstName;
+			$userLastName = $userData->lastName;
+
+			$details = new PostDetails($postTitle, $postContent, $postImage, $userFirstName, $userLastName);
+
+			$details = json_encode($details, JSON_PRETTY_PRINT);
+
+			echo $details;
+		}
 
 		return $response;
 	}

@@ -18,7 +18,7 @@
 						<tbody>
 							{% for post in posts %}
 								{% if post.user_id != user.id %}
-									<tr>
+									<tr onclick="getPostData({{ post.id }})">
 										<td>{{ post.title }}</td>
 										<td>{{ post.content }}</td>
 										<td><img src="images/posts/{{ post.image }}" width="40px" height="40px"></td>
@@ -33,19 +33,31 @@
 					<form method="POST" action="#" id="blog-form">
 						<div class="form-group">
 							<label for="title">Post Title:</label>
-							<input type="text" value="" id="title" class="form-control" autocomplete="off">
+							<input type="text" value="" id="title" class="form-control" autocomplete="off" readonly>
 						</div>
 						<div class="form-group">
 							<label for="content">Post Content:</label>
-							<textarea rows="5" class="form-control" id="content"></textarea>
+							<textarea rows="5" class="form-control" id="content" readonly></textarea>
 						</div>
 						<div class="form-group">
 							<label for="author">Post Author:</label>
-							<input type="text" id="author" value="" class="form-control" autocomplete="off">
+							<input type="text" id="author" value="" class="form-control" autocomplete="off" readonly>
 						</div>
 						<div class="form-group">
-							<img src="images/posts/aadad.jpg" width="100%" height="10px" class="img-fluid">
+							<label for="post-image">Post Image:</label>
+							<img src="" width="100%" class="img-fluid" id="post-image">
 						</div>
+					</form>
+
+					<hr>
+
+					<form method="POST" action="#" id="comment-form">
+						<div class="form-group">
+							<label for="comment">Comment:</label>
+							<input type="text" name="comment" id="comment" class="form-control">
+							<small class="text-muted form-text" id="comment-help">Your comment</small>
+						</div>
+						<input type="submit" id="comment-button" value="ADD COMMENT" class="btn btn-primary btn-sm">
 					</form>
 
 				</div>
