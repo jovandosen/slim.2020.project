@@ -1,0 +1,59 @@
+{% extends 'home.twig' %}
+
+{% block title %}Blog{% endblock %}
+
+{% block content %}
+	<div class="blog-form-box">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-7">
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th scope="col">Title</th>
+								<th scope="col">Content</th>
+								<th scope="col">Image</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for post in posts %}
+								{% if post.user_id != user.id %}
+									<tr>
+										<td>{{ post.title }}</td>
+										<td>{{ post.content }}</td>
+										<td><img src="images/posts/{{ post.image }}" width="40px" height="40px"></td>
+									</tr>
+								{% endif %}	
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-5">
+					
+					<form method="POST" action="#" id="blog-form">
+						<div class="form-group">
+							<label for="title">Post Title:</label>
+							<input type="text" value="" id="title" class="form-control" autocomplete="off">
+						</div>
+						<div class="form-group">
+							<label for="content">Post Content:</label>
+							<textarea rows="5" class="form-control" id="content"></textarea>
+						</div>
+						<div class="form-group">
+							<label for="author">Post Author:</label>
+							<input type="text" id="author" value="" class="form-control" autocomplete="off">
+						</div>
+						<div class="form-group">
+							<img src="images/posts/aadad.jpg" width="100%" height="10px" class="img-fluid">
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="js/blog.js"></script>
+{% endblock %}

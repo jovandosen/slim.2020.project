@@ -169,4 +169,17 @@ class PostController extends Controller
 
 		return $response->withHeader('Location', '/posts');
 	}
+
+	public function showBlog($request, $response)
+	{
+		$user = $request->getParsedBody();
+
+		$posts = Post::all();
+
+		$view = $this->container->get('twig');
+
+		echo $view->render('blog.twig', ['user' => $user, 'posts' => $posts]);
+
+		return $response;
+	}
 }

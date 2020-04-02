@@ -92,3 +92,5 @@ $app->get('/post/delete/{id}', 'PostController:deletePost');
 
 $app->get('/update', 'PostController:updatePost')->setName('update.post')->add(new AuthMiddleware());
 $app->post('/update', 'PostController:updatePostData');
+
+$app->get('/blog', 'PostController:showBlog')->setName('blog.data')->add(new AuthMiddleware());
