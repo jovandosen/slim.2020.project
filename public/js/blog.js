@@ -48,3 +48,36 @@ function getPostData(id, userID)
 		}
 	});
 }
+
+function getCommentsData(postID)
+{
+	$.ajax({
+		url: "/get-comment-data",
+		method: "GET",
+		data: {postID: postID},
+		success: function(response){
+
+			var comments = JSON.parse(response);
+
+			if(comments){
+
+				$("#comments-table").attr("style", "display: block;");
+
+				$("#comments-table tbody").empty();
+
+				for(var i = 0; i < comments.length; i++){
+					$("#comments-table tbody").append("<tr><td>"+comments[i].userFirstName+"</td><td>"+comments[i].userLastName+"</td><td>"+comments[i].userComment+"</td><td>"+comments[i].userCommentCreated+"</td></tr>");
+				}
+
+			} 
+
+			if(comments == ''){
+				$("#comments-table").attr("style", "display: none;");
+			}
+
+		},
+		error: function(response){
+			console.log('Error while getting comments.');
+		}
+	});
+}

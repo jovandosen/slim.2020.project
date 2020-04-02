@@ -6,13 +6,14 @@
 	<div class="blog-form-box">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-7">
+				<div class="col-lg-7">
 					<table class="table table-bordered table-hover">
 						<thead>
 							<tr>
 								<th scope="col">Title</th>
 								<th scope="col">Content</th>
 								<th scope="col">Image</th>
+								<th scope="col">Comments</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -22,13 +23,32 @@
 										<td>{{ post.title }}</td>
 										<td>{{ post.content }}</td>
 										<td><img src="images/posts/{{ post.image }}" width="40px" height="40px"></td>
+										<td class="text-center">
+											<a href="javascript:void(0)" onclick="getCommentsData({{ post.id }})">view</a>
+										</td>
 									</tr>
 								{% endif %}	
 							{% endfor %}
 						</tbody>
 					</table>
+
+					<hr>
+
+					<table class="table table-bordered table-hover" id="comments-table" style="display: none;">
+						<thead>
+							<tr>
+								<th scope="col">First Name</th>
+								<th scope="col">Last Name</th>
+								<th scope="col">Comment</th>
+								<th scope="col">Created</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+
 				</div>
-				<div class="col-md-5">
+				<div class="col-lg-5">
 					
 					<form method="POST" action="#" id="blog-form">
 						<div class="form-group">
