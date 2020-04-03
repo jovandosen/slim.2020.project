@@ -13,13 +13,25 @@ class GalleryController extends Controller
 	{
 		$message = $this->container->get('flash')->getMessages();
 
-		if( !empty($message) ){
+		if( !empty($message) && !empty($message['galleryCreated'][0]) ){
 			$message = $message['galleryCreated'][0];
+		} else if( !empty($message['imagesUploaded'][0]) ) {
+			$message = $message['imagesUploaded'][0];
 		} else {
 			$message = '';
 		}
 
 		$user = $request->getParsedBody();
+
+		// ajax call for images
+		if( isset($_GET['id']) ){
+			$id = $_GET['id'];
+			$images = Gallery::find($id)->images;
+			$images = json_encode($images, JSON_PRETTY_PRINT);
+			echo $images;
+			return $response;
+		}
+		//
 
 		$galleries = User::find($user->id)->galleries;
 
@@ -95,6 +107,8 @@ class GalleryController extends Controller
 				$img->save();
 			}
 		}
+
+		$this->container->get('flash')->addMessage('imagesUploaded', 'You have successfully uploaded images.');
 
 		return $response->withHeader('Location', '/gallery');
 	}

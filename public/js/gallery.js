@@ -76,4 +76,24 @@ function getGalleryData(id)
 {
 	$("#gallery-form-wrapper").attr("style", "display: block");
 	$("#galleryID").val(id);
+
+	$("#images-wrapper").empty();
+
+	$.ajax({
+		url: "/gallery",
+		method: "GET",
+		data: {id: id},
+		success: function(response){
+			if(response){
+				var images = JSON.parse(response);
+				$("#images-wrapper").append("<h5>Gallery Images:</h5>");
+				for(var i = 0; i < images.length; i++){
+					$("#images-wrapper").append("<div class='col-12 img-mar'><img src=images/gallery/"+images[i].name+" class='img-fluid img-thumbnail' width='100%'></div>");
+				}
+			}
+		},
+		error: function(response){
+			console.log(response);
+		}
+	});
 }
