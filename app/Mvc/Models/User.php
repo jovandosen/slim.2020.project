@@ -19,4 +19,9 @@ class User extends Model
 	{
 		return $this->hasMany('App\Mvc\Models\Comment');
 	}
+
+	public function galleries()
+	{
+		return $this->belongsTo('App\Mvc\Models\Gallery');
+	}
 }

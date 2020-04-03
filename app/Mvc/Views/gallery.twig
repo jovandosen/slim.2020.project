@@ -7,11 +7,17 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-4">
+
+					{% if message %}
+						<div class="alert alert-success text-center" role="alert" id="register-user-flash-message" style="position: absolute;top: 70px;left: 40%;">
+							{{ message }}
+						</div>
+					{% endif %}
 					
-					<form method="POST" action="#" id="gallery-form">
+					<form method="POST" action="/gallery/create" id="gallery-form">
 						<div class="form-group">
 							<label for="name">Name:</label>
-							<input type="text" name="name" id="name" class="form-control" placeholder="Gallery name..." autocomplete="off">
+							<input type="text" name="name" id="name" class="form-control" placeholder="Gallery name..." autocomplete="off" minlength="3" maxlength="30">
 							<small class="form-text text-muted" id="name-help">Enter your gallery name.</small>
 						</div>
 						<div class="form-group">
@@ -20,6 +26,7 @@
 							<small class="form-text text-muted" id="description-help">Enter your gallery description.</small>
 						</div>
 						<input type="submit" class="btn btn-primary" id="gallery-button" value="ADD GALLERY">
+						<input type="hidden" value={{ user.id }} name="userID" id="gallery-user-id">
 					</form>
 
 				</div>
@@ -36,4 +43,5 @@
 
 {% block scripts %}
 	<script src="js/gallery.js"></script>
+	<script src="js/flash-message.js"></script>
 {% endblock %}
