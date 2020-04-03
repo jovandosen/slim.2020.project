@@ -3,6 +3,7 @@
 namespace App\Mvc\Controllers;
 
 use App\Mvc\Models\Gallery;
+use App\Mvc\Models\Image;
 use App\Mvc\Models\User;
 use App\Services\ValidateGalleryData;
 
@@ -64,6 +65,35 @@ class GalleryController extends Controller
 
 			$this->container->get('logger')->info('New gallery added.');
 			$this->container->get('flash')->addMessage('galleryCreated', 'You have successfully created gallery.');
+		}
+
+		return $response->withHeader('Location', '/gallery');
+	}
+
+	public function uploadGalleryData($request, $response)
+	{
+		$data = $request->getParsedBody();
+		$files = $request->getUploadedFiles();
+
+		$userID = $data['userDataID'];
+		$galleryID = $data['galleryID'];
+
+		foreach($files as $key => $images){
+			foreach($images as $k => $image){
+
+				$imgName = $image->getClientFilename();
+				$imgSize = $image->getSize();
+				$imgType = $image->getClientMediaType();
+				$image->moveTo('C:\xampp\htdocs\slim.2020.project\public\images\gallery\\' . $imgName);
+
+				$img = new Image;
+
+				$img->user_id = $userID;
+				$img->gallery_id = $galleryID;
+				$img->name = $imgName;
+
+				$img->save();
+			}
 		}
 
 		return $response->withHeader('Location', '/gallery');

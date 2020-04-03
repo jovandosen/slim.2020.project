@@ -42,12 +42,15 @@
 
 					<div id="gallery-form-wrapper" style="display: none;">
 						<hr>
-						<form method="POST" action="#" enctype="multipart/form-data">
+						<form method="POST" action="/gallery/upload" enctype="multipart/form-data" id="gallery-img-upload">
 							<div class="form-group">
-								<label for="galleryImage">Upload images:</label>
-								<input type="file" name="galleryImages[]" id="galleryImage" class="form-control-file" multiple="multiple">
-								<input type="submit" value="UPLOAD" class="btn btn-primary btn-sm" id="gallery-image-upload">
+								<label for="galleryImages">Upload images:</label>
+								<input type="file" name="galleryImages[]" id="galleryImages" class="form-control-file" multiple="multiple">
+								<small class="text-muted form-text" id="upload-img-help">Upload your images.</small>
 							</div>
+							<input type="hidden" name="galleryID" value="" id="galleryID">
+							<input type="hidden" name="userDataID" value="{{ user.id }}">
+							<input type="submit" value="UPLOAD" class="btn btn-primary btn-sm" id="gallery-image-upload">
 						</form>
 					</div>
 

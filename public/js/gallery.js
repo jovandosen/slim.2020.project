@@ -5,6 +5,20 @@ $(document).ready(function(){
 		validateGalleryData();
 	});
 
+	$("#gallery-image-upload").on("click", function(event){
+		event.preventDefault();
+		if( $("#galleryImages").val() == '' ){
+			$("#upload-img-help").text('Please upload image or images.');
+			$("#upload-img-help").attr("style", "color: red !important");
+			$("#galleryImages").css({"border":"1px solid red"});
+		} else {
+			$("#upload-img-help").text('Upload your images.');
+			$("#upload-img-help").attr("style", "");
+			$("#galleryImages").css({"border":""});
+			$("#gallery-img-upload").submit();
+		}
+	});
+
 });
 
 function validateGalleryData()
@@ -61,4 +75,5 @@ function validateGalleryData()
 function getGalleryData(id)
 {
 	$("#gallery-form-wrapper").attr("style", "display: block");
+	$("#galleryID").val(id);
 }
