@@ -30,33 +30,38 @@ class CommentController extends Controller
 
 	public function getComments($request, $response)
 	{
-		$postID = $_GET['postID'];
+		$ajaxCall = $request->getHeader('X-Requested-With');
 
-		$comments = Post::find($postID)->comments;
+		if( $ajaxCall[0] === 'XMLHttpRequest' ){
 
-		$data = [];
+			$postID = $_GET['postID'];
 
-		foreach($comments as $key => $comment){
+			$comments = Post::find($postID)->comments;
 
-			$userComment = $comment->comment;
-			$userCommentCreated = $comment->created_at;
+			$data = [];
 
-			$userID = $comment->user_id;
+			foreach($comments as $key => $comment){
 
-			$userData = User::find($userID);
+				$userComment = $comment->comment;
+				$userCommentCreated = $comment->created_at->diffForHumans();
 
-			$userFirstName = $userData->firstName;
-			$userLastName = $userData->lastName;
+				$userID = $comment->user_id;
 
-			$commentDetails = new CommentDetails($userFirstName, $userLastName, $userComment, $userCommentCreated);
+				$userData = User::find($userID);
 
-			$data[] = $commentDetails;
+				$userFirstName = $userData->firstName;
+				$userLastName = $userData->lastName;
+
+				$commentDetails = new CommentDetails($userFirstName, $userLastName, $userComment, $userCommentCreated);
+
+				$data[] = $commentDetails;
+			}
+
+			$data = json_encode($data, JSON_PRETTY_PRINT);
+
+			echo $data;
+
+			return $response;
 		}
-
-		$data = json_encode($data, JSON_PRETTY_PRINT);
-
-		echo $data;
-
-		return $response;
 	}
 }

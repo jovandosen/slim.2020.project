@@ -16,6 +16,8 @@ function getPostData(id, userID)
 {
 	var postID = id;
 
+	$("#comments-table").attr("style", "display: none;");
+
 	$.ajax({
 		url: "/get-post-data",
 		method: "GET",
