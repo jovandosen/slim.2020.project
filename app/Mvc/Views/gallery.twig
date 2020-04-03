@@ -1,0 +1,39 @@
+{% extends 'home.twig' %}
+
+{% block title %}Gallery{% endblock %}
+
+{% block content %}
+	<div class="gallery-content-box">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-4">
+					
+					<form method="POST" action="#" id="gallery-form">
+						<div class="form-group">
+							<label for="name">Name:</label>
+							<input type="text" name="name" id="name" class="form-control" placeholder="Gallery name..." autocomplete="off">
+							<small class="form-text text-muted" id="name-help">Enter your gallery name.</small>
+						</div>
+						<div class="form-group">
+							<label for="description">Description:</label>
+							<textarea class="form-control" name="description" id="description" placeholder="Gallery description..." rows="5"></textarea>
+							<small class="form-text text-muted" id="description-help">Enter your gallery description.</small>
+						</div>
+						<input type="submit" class="btn btn-primary" id="gallery-button" value="ADD GALLERY">
+					</form>
+
+				</div>
+				<div class="col-md-3">
+					<p>test</p>
+				</div>
+				<div class="col-md-5">
+					<p>test</p>
+				</div>
+			</div>
+		</div>
+	</div>	
+{% endblock %}
+
+{% block scripts %}
+	<script src="js/gallery.js"></script>
+{% endblock %}

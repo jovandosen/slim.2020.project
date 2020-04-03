@@ -100,3 +100,5 @@ $app->get('/get-post-data', 'PostController:getPostData')->setName('post.ajax.da
 $app->post('/comment', 'CommentController:addComment')->setName('add.comment');
 
 $app->get('/get-comment-data', 'CommentController:getComments')->setName('all.comments');
+
+$app->get('/gallery', 'GalleryController:galleryData')->setName('gallery.data')->add(new AuthMiddleware());

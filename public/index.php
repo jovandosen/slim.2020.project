@@ -94,6 +94,10 @@ $container->set('CommentController', function($container){
     return new \App\Mvc\Controllers\CommentController($container);
 });
 
+$container->set('GalleryController', function($container){
+    return new \App\Mvc\Controllers\GalleryController($container);
+});
+
 $app = AppFactory::create();
 
 $app->addRoutingMiddleware();
