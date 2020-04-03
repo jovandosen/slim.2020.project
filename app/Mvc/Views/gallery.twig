@@ -9,7 +9,7 @@
 				<div class="col-md-4">
 
 					{% if message %}
-						<div class="alert alert-success text-center" role="alert" id="register-user-flash-message" style="position: absolute;top: 70px;left: 40%;">
+						<div class="alert alert-success text-center" role="alert" id="register-user-flash-message" style="position: absolute;bottom: -75px;">
 							{{ message }}
 						</div>
 					{% endif %}
@@ -31,7 +31,26 @@
 
 				</div>
 				<div class="col-md-3">
-					<p>test</p>
+					{% if galleries %}
+						<h5 style="margin-bottom: 15px;">Gallery list:</h5>
+						{% for gallery in galleries %}
+							<p> -> <a href="javascript:void(0)" onclick="getGalleryData({{ gallery.id }})">{{ gallery.name }}</a></p>
+						{% endfor %}
+					{% else %}
+						<h5>No Galleries found.</h5>
+					{% endif %}
+
+					<div id="gallery-form-wrapper" style="display: none;">
+						<hr>
+						<form method="POST" action="#" enctype="multipart/form-data">
+							<div class="form-group">
+								<label for="galleryImage">Upload images:</label>
+								<input type="file" name="galleryImages[]" id="galleryImage" class="form-control-file" multiple="multiple">
+								<input type="submit" value="UPLOAD" class="btn btn-primary btn-sm" id="gallery-image-upload">
+							</div>
+						</form>
+					</div>
+
 				</div>
 				<div class="col-md-5">
 					<p>test</p>

@@ -3,6 +3,7 @@
 namespace App\Mvc\Controllers;
 
 use App\Mvc\Models\Gallery;
+use App\Mvc\Models\User;
 use App\Services\ValidateGalleryData;
 
 class GalleryController extends Controller
@@ -19,9 +20,21 @@ class GalleryController extends Controller
 
 		$user = $request->getParsedBody();
 
+		$galleries = User::find($user->id)->galleries;
+
+		$galleryCount = 0;
+
+		foreach($galleries as $k => $v){
+			$galleryCount++;
+		}
+
+		if($galleryCount === 0){
+			$galleries = false;
+		}
+
 		$view = $this->container->get('twig');
 
-		echo $view->render('gallery.twig', ['user' => $user, 'message' => $message]);
+		echo $view->render('gallery.twig', ['user' => $user, 'message' => $message, 'galleries' => $galleries]);
 
 		return $response;
 	}

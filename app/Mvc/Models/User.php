@@ -22,6 +22,6 @@ class User extends Model
 
 	public function galleries()
 	{
-		return $this->belongsTo('App\Mvc\Models\Gallery');
+		return $this->hasMany('App\Mvc\Models\Gallery');
 	}
 }

@@ -57,3 +57,8 @@ function validateGalleryData()
 		$("#gallery-form").submit();
 	}
 }
+
+function getGalleryData(id)
+{
+	$("#gallery-form-wrapper").attr("style", "display: block");
+}
