@@ -6,7 +6,7 @@
 	<div class="gallery-content-box">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-4 add-bottom-mar">
 
 					{% if message %}
 						<div class="alert alert-success text-center" role="alert" id="register-user-flash-message" style="position: absolute;bottom: -75px;">
@@ -30,7 +30,7 @@
 					</form>
 
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-3 add-bottom-mar">
 					{% if galleries %}
 						<h5 style="margin-bottom: 15px;">Gallery list:</h5>
 						{% for gallery in galleries %}
@@ -56,6 +56,7 @@
 
 				</div>
 				<div class="col-md-5">
+					<h5 id="add-title-text"></h5>
 					<div class="row" id="images-wrapper">
 					</div>
 				</div>

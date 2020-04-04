@@ -78,18 +78,26 @@ function getGalleryData(id)
 	$("#galleryID").val(id);
 
 	$("#images-wrapper").empty();
+	$("#add-title-text").text('');
 
 	$.ajax({
 		url: "/gallery",
 		method: "GET",
 		data: {id: id},
 		success: function(response){
-			if(response){
-				var images = JSON.parse(response);
-				$("#images-wrapper").append("<h5>Gallery Images:</h5>");
+
+			var images = JSON.parse(response);
+
+			if(images){
+				$("#add-title-text").text('Gallery images:');
 				for(var i = 0; i < images.length; i++){
-					$("#images-wrapper").append("<div class='col-12 img-mar'><img src=images/gallery/"+images[i].name+" class='img-fluid img-thumbnail' width='100%'></div>");
+					$("#images-wrapper").append("<div class='col-lg-4 col-md-6 col-sm-6 img-mar'><img src=images/gallery/"+images[i].name+" width='150px' height='150px'></div>");
 				}
+			}
+
+			if( images == '' ){
+				$("#images-wrapper").empty();
+				$("#add-title-text").text('No Images found.');
 			}
 		},
 		error: function(response){
