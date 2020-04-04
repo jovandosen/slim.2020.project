@@ -107,3 +107,6 @@ $app->post('/gallery/upload', 'GalleryController:uploadGalleryData');
 
 $app->get('/gallery/images', 'GalleryController:getGalleryImages')->setName('gallery.images');
 $app->get('/gallery/delete/image', 'GalleryController:deleteGalleryImage')->setName('gallery.image.delete');
+
+$app->get('/data', 'PostController:allPostsData')->setName('all.posts.data')->add(new AuthMiddleware());
+$app->get('/data/posts', 'PostController:getPosts')->setName('get.posts');

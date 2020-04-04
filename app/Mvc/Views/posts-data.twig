@@ -1,0 +1,31 @@
+{% extends 'home.twig' %}
+
+{% block title %}All Posts Data{% endblock %}
+
+{% block content %}
+	<div id="posts-data-wrapper">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+
+					<table class="table table-bordered table-hover" id="posts-data-table">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">Title</th>
+								<th scope="col">Content</th>
+								<th scope="col">Image</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="js/posts-data.js"></script>
+{% endblock %}

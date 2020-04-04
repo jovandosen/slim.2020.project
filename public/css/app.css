@@ -77,6 +77,13 @@
 	color: red;
 }
 
+#posts-data-wrapper {
+	margin-top: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+}
+
 /* Media Queries */
 
 @media (max-width: 992px) {

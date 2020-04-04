@@ -216,4 +216,27 @@ class PostController extends Controller
 
 		return $response;
 	}
+
+	public function allPostsData($request, $response)
+	{
+		$user = $request->getParsedBody();
+
+		$view = $this->container->get('twig');
+
+		echo $view->render('posts-data.twig', ['user' => $user]);
+
+		return $response;
+	}
+
+	public function getPosts($request, $response)
+	{
+		$ajaxCall = $request->getHeader('X-Requested-With');
+
+		if( $ajaxCall[0] === 'XMLHttpRequest' ){
+			$posts = Post::all();
+			$posts = json_encode($posts, JSON_PRETTY_PRINT);
+			echo $posts;
+			return $response;
+		}
+	}
 }
