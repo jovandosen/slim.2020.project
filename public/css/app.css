@@ -77,11 +77,21 @@
 	color: red;
 }
 
-#posts-data-wrapper {
-	margin-top: 30px;
+#posts-data-search-wrapper {
+	margin-top: 20px;
 	margin-left: auto;
 	margin-right: auto;
 	width: 80%;
+}
+
+#posts-data-wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+}
+
+.move-button-right {
+	text-align: right;
 }
 
 /* Media Queries */
