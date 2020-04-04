@@ -239,4 +239,19 @@ class PostController extends Controller
 			return $response;
 		}
 	}
+
+	public function loggUserData($request, $response)
+	{
+		$ajaxCall = $request->getHeader('X-Requested-With');
+
+		if( $ajaxCall[0] === 'XMLHttpRequest' ){
+			
+			$uID = $_GET['uID'];
+			$pID = $_GET['pID'];
+
+			// logg data
+
+			return $response;
+		}
+	}
 }

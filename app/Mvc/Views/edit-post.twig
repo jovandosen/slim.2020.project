@@ -34,7 +34,7 @@
 						</div>
 						<input type="submit" value="EDIT POST" class="btn btn-primary" id="post-button">
 						<input type="hidden" value="{{ user.id }}" id="user-id-hidden" name="userID">
-						<input type="hidden" value="{{ post.id }}" name="postIdDetail">
+						<input type="hidden" value="{{ post.id }}" id="post-id-hidden" name="postIdDetail">
 					</form>
 				</div>
 			</div>
@@ -45,4 +45,5 @@
 {% block scripts %}
 	<script src="js/edit-post.js"></script>
 	<script src="js/flash-message.js"></script>
+	<script src="js/logg-user.js"></script>
 {% endblock %}

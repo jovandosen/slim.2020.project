@@ -22,7 +22,7 @@ function getPosts()
 
 			if(posts){
 				for(var i = 0; i < posts.length; i++){
-					$("#posts-data-table tbody").append("<tr><td>"+posts[i].title+"</td><td>"+posts[i].content+"</td><td><img src=images/gallery/"+posts[i].image+" width='50px' height='50px'></td></tr>");
+					$("#posts-data-table tbody").append("<tr onclick='findPostById("+posts[i].id+")'><td>"+posts[i].title+"</td><td>"+posts[i].content+"</td><td><img src=images/gallery/"+posts[i].image+" width='50px' height='50px'></td></tr>");
 				}
 			}
 
@@ -31,4 +31,9 @@ function getPosts()
 			console.log('Error while getting posts data.');
 		}
 	});
+}
+
+function findPostById(id)
+{
+	window.location.href = 'http://slim.2020.project/update?postId=' + id;
 }
