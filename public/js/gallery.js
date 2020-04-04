@@ -97,7 +97,7 @@ function getGalleryData(id)
 	$("#add-title-text").text('');
 
 	$.ajax({
-		url: "/gallery",
+		url: "/gallery/images",
 		method: "GET",
 		data: {id: id},
 		success: function(response){
@@ -125,7 +125,7 @@ function getGalleryData(id)
 function deleteGalleryImage(imageID, galleryID)
 {
 	$.ajax({
-		url: "/gallery",
+		url: "/gallery/delete/image",
 		method: "GET",
 		data: {imgID: imageID},
 		success: function(response){

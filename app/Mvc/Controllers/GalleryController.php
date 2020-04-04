@@ -23,25 +23,6 @@ class GalleryController extends Controller
 
 		$user = $request->getParsedBody();
 
-		// ajax call for images
-		if( isset($_GET['id']) ){
-			$id = $_GET['id'];
-			$images = Gallery::find($id)->images;
-			$images = json_encode($images, JSON_PRETTY_PRINT);
-			echo $images;
-			return $response;
-		}
-		//
-
-		// ajax call for image delete
-		if( isset($_GET['imgID']) ){
-			$imgID = $_GET['imgID'];
-			$image = Image::find($imgID);
-			$image->delete();
-			return $response;
-		}
-		//
-
 		$galleries = User::find($user->id)->galleries;
 
 		$galleryCount = 0;
@@ -120,5 +101,38 @@ class GalleryController extends Controller
 		$this->container->get('flash')->addMessage('imagesUploaded', 'You have successfully uploaded images.');
 
 		return $response->withHeader('Location', '/gallery');
+	}
+
+	public function getGalleryImages($request, $response)
+	{
+		$ajaxCall = $request->getHeader('X-Requested-With');
+
+		if( $ajaxCall[0] === 'XMLHttpRequest' ){
+			// ajax call for images
+			if( isset($_GET['id']) ){
+				$id = $_GET['id'];
+				$images = Gallery::find($id)->images;
+				$images = json_encode($images, JSON_PRETTY_PRINT);
+				echo $images;
+				return $response;
+			}
+			//
+		}
+	}
+
+	public function deleteGalleryImage($request, $response)
+	{
+		$ajaxCall = $request->getHeader('X-Requested-With');
+
+		if( $ajaxCall[0] === 'XMLHttpRequest' ){
+			// ajax call for image delete
+			if( isset($_GET['imgID']) ){
+				$imgID = $_GET['imgID'];
+				$image = Image::find($imgID);
+				$image->delete();
+				return $response;
+			}
+			//
+		}
 	}
 }

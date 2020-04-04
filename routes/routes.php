@@ -104,3 +104,6 @@ $app->get('/get-comment-data', 'CommentController:getComments')->setName('all.co
 $app->get('/gallery', 'GalleryController:galleryData')->setName('gallery.data')->add(new AuthMiddleware());
 $app->post('/gallery/create', 'GalleryController:postGalleryData');
 $app->post('/gallery/upload', 'GalleryController:uploadGalleryData');
+
+$app->get('/gallery/images', 'GalleryController:getGalleryImages')->setName('gallery.images');
+$app->get('/gallery/delete/image', 'GalleryController:deleteGalleryImage')->setName('gallery.image.delete');
