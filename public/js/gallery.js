@@ -19,6 +19,22 @@ $(document).ready(function(){
 		}
 	});
 
+	$("#images-wrapper").on("mouseover", ".hover-style", function(){
+		$(this).css({"opacity":"0.7", "border":"4px solid green"});
+	});
+
+	$("#images-wrapper").on("mouseout", ".hover-style", function(){
+		$(this).css({"opacity":"1", "border":""});
+	});
+
+	$("#images-wrapper").on("click", ".hover-style", function(){
+		$(this).parent().find(".delete-img").remove();
+		$(this).parent().find(".view-img").remove();
+		var imageID = $(this).attr("id");
+		var galleryID = $(this).attr("data-gallery-id");
+		$(this).parent().append("<a href='#' class='view-img'>view</a>  <a class='delete-img' href='javascript:void(0)' onclick='deleteGalleryImage("+imageID+", "+galleryID+")'>delete</a>");
+	});
+
 });
 
 function validateGalleryData()
@@ -91,7 +107,7 @@ function getGalleryData(id)
 			if(images){
 				$("#add-title-text").text('Gallery images:');
 				for(var i = 0; i < images.length; i++){
-					$("#images-wrapper").append("<div class='col-lg-4 col-md-6 col-sm-6 img-mar'><img src=images/gallery/"+images[i].name+" width='150px' height='150px'></div>");
+					$("#images-wrapper").append("<div class='col-lg-4 col-md-6 col-sm-6 img-mar'><img src=images/gallery/"+images[i].name+" width='150px' height='150px' class='hover-style' id="+images[i].id+" data-gallery-id="+images[i].gallery_id+"></div>");
 				}
 			}
 
@@ -99,6 +115,21 @@ function getGalleryData(id)
 				$("#images-wrapper").empty();
 				$("#add-title-text").text('No Images found.');
 			}
+		},
+		error: function(response){
+			console.log(response);
+		}
+	});
+}
+
+function deleteGalleryImage(imageID, galleryID)
+{
+	$.ajax({
+		url: "/gallery",
+		method: "GET",
+		data: {imgID: imageID},
+		success: function(response){
+			getGalleryData(galleryID);
 		},
 		error: function(response){
 			console.log(response);

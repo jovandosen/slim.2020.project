@@ -33,6 +33,15 @@ class GalleryController extends Controller
 		}
 		//
 
+		// ajax call for image delete
+		if( isset($_GET['imgID']) ){
+			$imgID = $_GET['imgID'];
+			$image = Image::find($imgID);
+			$image->delete();
+			return $response;
+		}
+		//
+
 		$galleries = User::find($user->id)->galleries;
 
 		$galleryCount = 0;

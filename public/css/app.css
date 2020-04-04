@@ -73,6 +73,10 @@
 	margin-bottom: 10px;
 }
 
+.delete-img {
+	color: red;
+}
+
 /* Media Queries */
 
 @media (max-width: 992px) {
