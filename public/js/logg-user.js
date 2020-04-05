@@ -15,7 +15,9 @@ function loggUserData()
 		method: "GET",
 		data: {uID: uID, pID: pID},
 		success: function(response){
-			console.log(response);
+			if( response == 'refresh' ){
+				location.reload();
+			}
 		},
 		error: function(response){
 			console.log('Error while logging user data.');

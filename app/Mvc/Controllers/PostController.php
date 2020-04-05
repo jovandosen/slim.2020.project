@@ -144,8 +144,6 @@ class PostController extends Controller
 				// compare time
 				$diff = strtotime($currentTime) - strtotime($row->editTime);
 				if( $diff < 60 && $row->user_id != $userID ){
-					echo 'You cant edit now.';
-
 					$userEdit = User::find($row->user_id);
 
 					$view = $this->container->get('twig');
@@ -165,11 +163,11 @@ class PostController extends Controller
 						die();
 					}
 
-					$sqlTwo = "UPDATE logs SET editTime=? WHERE post_id=?";
+					$sqlTwo = "UPDATE logs SET editTime=?, user_id=? WHERE post_id=?";
 
 					$connTwo = $connectionTwo->prepare($sqlTwo);
 
-					$connTwo->bind_param("si", $currentTime, $postID);
+					$connTwo->bind_param("sii", $currentTime, $userID, $postID);
 					$connTwo->execute();
 
 					$connTwo->close();
@@ -356,6 +354,8 @@ class PostController extends Controller
 						$conn->close();
 						$connection->close();
 
+					} else {
+						echo "refresh";
 					}
 				}
 
