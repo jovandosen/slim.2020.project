@@ -4,6 +4,7 @@ namespace App\Mvc\Controllers;
 
 use App\Mvc\Models\User;
 use App\Mvc\Models\Post;
+use App\Mvc\Models\LogUserData;
 use App\Services\ValidatePostData;
 use App\Services\ValidatePostUpdateData;
 use App\Services\PostDetails;
@@ -249,7 +250,99 @@ class PostController extends Controller
 			$uID = $_GET['uID'];
 			$pID = $_GET['pID'];
 
-			// logg data
+			$editTime = date('Y-m-d H:i:s');
+
+			//
+
+			$connectionOne = new \mysqli('localhost', 'root', '', 'slim2020');
+
+			if( $connectionOne->connect_errno ){
+				echo "Failed to connect to MySQL: (" . $connectionOne->connect_errno . ") " . $connectionOne->connect_error;
+				die();
+			}
+
+			$sqlOne = "SELECT * FROM logs WHERE user_id=?";
+
+			$connOne = $connectionOne->prepare($sqlOne);
+
+			$connOne->bind_param("i", $uID);
+			$connOne->execute();
+
+			$data = $connOne->get_result();
+
+			if( $data->num_rows > 0 ){
+
+				$rowCount = 0;
+
+				while( $row = mysqli_fetch_object($data) ){
+					if( $row->post_id == $pID ){
+						// update row
+
+						$connection = new \mysqli('localhost', 'root', '', 'slim2020');
+
+						if( $connection->connect_errno ){
+							echo "Failed to connect to MySQL: (" . $connection->connect_errno . ") " . $connection->connect_error;
+							die();
+						}
+
+						$sql = "UPDATE logs SET editTime=? WHERE post_id=?";
+
+						$conn = $connection->prepare($sql);
+
+						$conn->bind_param("si", $editTime, $pID);
+						$conn->execute();
+
+						$conn->close();
+						$connection->close();
+
+						$rowCount++;
+
+						break;
+					}
+				}
+
+				if( $rowCount === 0 ){
+					// insert row for existing user
+
+					$connection = new \mysqli('localhost', 'root', '', 'slim2020');
+
+					if( $connection->connect_errno ){
+						echo "Failed to connect to MySQL: (" . $connection->connect_errno . ") " . $connection->connect_error;
+						die();
+					}
+
+					$sql = "INSERT INTO logs(user_id, post_id, editTime) VALUES(?, ?, ?)";
+
+					$conn = $connection->prepare($sql);
+
+					$conn->bind_param("iis", $uID, $pID, $editTime);
+					$conn->execute();
+
+					$conn->close();
+					$connection->close();
+
+				}
+
+			} else {
+				// insert row for new user
+
+				$connection = new \mysqli('localhost', 'root', '', 'slim2020');
+
+				if( $connection->connect_errno ){
+					echo "Failed to connect to MySQL: (" . $connection->connect_errno . ") " . $connection->connect_error;
+					die();
+				}
+
+				$sql = "INSERT INTO logs(user_id, post_id, editTime) VALUES(?, ?, ?)";
+
+				$conn = $connection->prepare($sql);
+
+				$conn->bind_param("iis", $uID, $pID, $editTime);
+				$conn->execute();
+
+				$conn->close();
+				$connection->close();
+			}
 
 			return $response;
 		}
