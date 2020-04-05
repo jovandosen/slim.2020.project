@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
 	loggUserData();
+	setInterval(loggUserData, 55000);
 
 });
 

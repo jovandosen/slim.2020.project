@@ -4,7 +4,6 @@ namespace App\Mvc\Controllers;
 
 use App\Mvc\Models\User;
 use App\Mvc\Models\Post;
-use App\Mvc\Models\LogUserData;
 use App\Services\ValidatePostData;
 use App\Services\ValidatePostUpdateData;
 use App\Services\PostDetails;
@@ -115,9 +114,72 @@ class PostController extends Controller
 	{
 		$user = $request->getParsedBody();
 
+		$userID = $user->id;
+
 		$postID = $_GET['postId'];
 
 		$post = Post::find($postID);
+
+		// check log data
+
+		$connection = new \mysqli('localhost', 'root', '', 'slim2020');
+
+		if( $connection->connect_error ){
+			die('Error while connecting to database:' . $connection->connect_error);
+		}
+
+		$sql = "SELECT * FROM logs WHERE post_id=?";
+
+		$record = $connection->prepare($sql);
+
+		$record->bind_param('i', $postID);
+		$record->execute();
+
+		$data = $record->get_result();
+
+		$currentTime = date('Y-m-d H:i:s');
+
+		if($data->num_rows > 0){
+			while( $row = mysqli_fetch_object($data) ){
+				// compare time
+				$diff = strtotime($currentTime) - strtotime($row->editTime);
+				if( $diff < 60 && $row->user_id != $userID ){
+					echo 'You cant edit now.';
+
+					$userEdit = User::find($row->user_id);
+
+					$view = $this->container->get('twig');
+
+					echo $view->render('edit-post.twig', ['user' => $user, 'post' => $post, 'userEdit' => $userEdit]);
+
+					return $response;
+
+				} else {
+
+					// update row
+
+					$connectionTwo = new \mysqli('localhost', 'root', '', 'slim2020');
+
+					if( $connectionTwo->connect_errno ){
+						echo "Failed to connect to MySQL: (" . $connectionTwo->connect_errno . ") " . $connectionTwo->connect_error;
+						die();
+					}
+
+					$sqlTwo = "UPDATE logs SET editTime=? WHERE post_id=?";
+
+					$connTwo = $connectionTwo->prepare($sqlTwo);
+
+					$connTwo->bind_param("si", $currentTime, $postID);
+					$connTwo->execute();
+
+					$connTwo->close();
+					$connectionTwo->close();
+
+				} 
+			}
+		}
+
+		//
 
 		$view = $this->container->get('twig');
 
@@ -252,7 +314,7 @@ class PostController extends Controller
 
 			$editTime = date('Y-m-d H:i:s');
 
-			//
+			//////////////////////////////////////////////////////////////////////////////////////
 
 			$connectionOne = new \mysqli('localhost', 'root', '', 'slim2020');
 
@@ -261,22 +323,21 @@ class PostController extends Controller
 				die();
 			}
 
-			$sqlOne = "SELECT * FROM logs WHERE user_id=?";
+			$sqlOne = "SELECT * FROM logs WHERE post_id=?";
 
 			$connOne = $connectionOne->prepare($sqlOne);
 
-			$connOne->bind_param("i", $uID);
+			$connOne->bind_param("i", $pID);
 			$connOne->execute();
 
 			$data = $connOne->get_result();
 
 			if( $data->num_rows > 0 ){
 
-				$rowCount = 0;
-
 				while( $row = mysqli_fetch_object($data) ){
-					if( $row->post_id == $pID ){
-						// update row
+					$currentTime = date('Y-m-d H:i:s');
+					$diff = strtotime($currentTime) - strtotime($row->editTime);
+					if( $diff < 60 && $uID == $row->user_id ){
 
 						$connection = new \mysqli('localhost', 'root', '', 'slim2020');
 
@@ -295,36 +356,10 @@ class PostController extends Controller
 						$conn->close();
 						$connection->close();
 
-						$rowCount++;
-
-						break;
 					}
-				}
-
-				if( $rowCount === 0 ){
-					// insert row for existing user
-
-					$connection = new \mysqli('localhost', 'root', '', 'slim2020');
-
-					if( $connection->connect_errno ){
-						echo "Failed to connect to MySQL: (" . $connection->connect_errno . ") " . $connection->connect_error;
-						die();
-					}
-
-					$sql = "INSERT INTO logs(user_id, post_id, editTime) VALUES(?, ?, ?)";
-
-					$conn = $connection->prepare($sql);
-
-					$conn->bind_param("iis", $uID, $pID, $editTime);
-					$conn->execute();
-
-					$conn->close();
-					$connection->close();
-
 				}
 
 			} else {
-				// insert row for new user
 
 				$connection = new \mysqli('localhost', 'root', '', 'slim2020');
 
@@ -342,7 +377,13 @@ class PostController extends Controller
 
 				$conn->close();
 				$connection->close();
+
 			}
+
+			$connOne->close();
+			$connectionOne->close();
+
+			//////////////////////////////////////////////////////////////////////////////////////
 
 			return $response;
 		}
