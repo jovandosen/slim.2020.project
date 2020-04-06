@@ -18,7 +18,6 @@ function loggUserData()
 			if( response == 'refresh' ){
 				location.reload();
 			}
-			console.log(response);
 		},
 		error: function(response){
 			console.log('Error while logging user data.');

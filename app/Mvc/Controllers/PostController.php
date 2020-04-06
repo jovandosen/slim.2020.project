@@ -336,7 +336,7 @@ class PostController extends Controller
 					$currentTime = date('Y-m-d H:i:s');
 					$diff = strtotime($currentTime) - strtotime($row->editTime);
 					if( $diff < 60 && $uID == $row->user_id ){
-						echo $diff;
+		
 						$connection = new \mysqli('localhost', 'root', '', 'slim2020');
 
 						if( $connection->connect_errno ){
@@ -378,8 +378,6 @@ class PostController extends Controller
 							$connection->close();
 
 							echo "refresh";
-
-							//echo $diff . ' ' . 'aaa';
 
 						}
 
