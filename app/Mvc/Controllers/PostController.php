@@ -336,7 +336,7 @@ class PostController extends Controller
 					$currentTime = date('Y-m-d H:i:s');
 					$diff = strtotime($currentTime) - strtotime($row->editTime);
 					if( $diff < 60 && $uID == $row->user_id ){
-
+						echo $diff;
 						$connection = new \mysqli('localhost', 'root', '', 'slim2020');
 
 						if( $connection->connect_errno ){
@@ -355,7 +355,34 @@ class PostController extends Controller
 						$connection->close();
 
 					} else {
-						echo "refresh";
+						
+						// update
+
+						if( $diff >= 60 ){
+
+							$connection = new \mysqli('localhost', 'root', '', 'slim2020');
+
+							if( $connection->connect_errno ){
+								echo "Failed to connect to MySQL: (" . $connection->connect_errno . ") " . $connection->connect_error;
+								die();
+							}
+
+							$sql = "UPDATE logs SET editTime=?, user_id=? WHERE post_id=?";
+
+							$conn = $connection->prepare($sql);
+
+							$conn->bind_param("sii", $editTime, $uID, $pID);
+							$conn->execute();
+
+							$conn->close();
+							$connection->close();
+
+							echo "refresh";
+
+							//echo $diff . ' ' . 'aaa';
+
+						}
+
 					}
 				}
 
